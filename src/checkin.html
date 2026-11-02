@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partner check-in | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- CHECK-IN -->
+<section id="checkin"><div class="wrap">
+  <div class="checkin-box">
+    <div>
+      <h2>Partner check-in form</h2>
+      <p>Every Tuesday and Friday, each person fills out the same form on their own and marks the day. Answer honestly. It helps make sure everyone is contributing. Due dates: <b id="ciDates"></b>.</p>
+    </div>
+    <a class="btn" id="formBtn" href="#" target="_blank" rel="noopener">Open the form</a>
+  </div>
+  <div class="cicards" id="ciCards" style="margin-top:16px"></div>
+</div></section>
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+/* check-in */
+$("#ciDates").textContent=ITEMS.filter(i=>i.t==="checkin"||i.ci).map(i=>fmt(parse(i.d),{weekday:"short",month:"short",day:"numeric"})).join(", ");
+const fb=$("#formBtn");
+if(FORM_URL){ fb.href=FORM_URL; } else { fb.removeAttribute("href"); fb.setAttribute("aria-disabled","true"); fb.textContent="Form link coming soon"; }
+
+</script>
+</body>
+</html>

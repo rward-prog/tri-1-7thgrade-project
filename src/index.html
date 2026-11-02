@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Test it. Measure it. Present it.</h1>
+        <p class="sub">Exercise Science Project for 7th grade. You and a partner collect 10 data points, analyze them, and present the results. This project is 30% of your trimester grade.</p>
+      </div>
+      <div class="counts" aria-live="polite">
+        <div class="count">
+          <div class="big" id="mmDays">--</div>
+          <div class="lbl" id="mmLbl">days until Materials and Methods presentations</div>
+          <div class="lbl2" id="mmClass"></div>
+        </div>
+        <div class="count second">
+          <div class="big" id="daysLeft">--</div>
+          <div class="lbl" id="daysLbl">days until final presentations</div>
+          <div class="lbl2" id="classLeft"></div>
+        </div>
+      </div>
+    </div>
+    <svg class="ecg" viewBox="0 0 1000 110" preserveAspectRatio="none" aria-hidden="true">
+      <path id="ecgPath" class="base" pathLength="1000" d="M0 70 H250 l14 0 l10 -10 l12 10 H330 l12 14 l16 -64 l16 84 l14 -34 H470 l12 -14 l24 14 H1000"/>
+      <path class="beat" pathLength="1000" d="M0 70 H250 l14 0 l10 -10 l12 10 H330 l12 14 l16 -64 l16 84 l14 -34 H470 l12 -14 l24 14 H1000"/>
+    </svg>
+  </div>
+</header>
+<main>
+<section><div class="wrap">
+  <div class="upnext" id="upnext" style="margin-top:0"></div>
+</div></section>
+<section style="padding-top:28px"><div class="wrap">
+  <h2>Partner check-ins</h2>
+  <p class="lede">Every Tuesday and Friday, each person fills out the form on their own and picks the day. Do it before the deadline.</p>
+  <div class="formbar">
+    <div><h3>Fill out the check-in form</h3><p>Pick the correct check-in day on the form. Answer honestly.</p></div>
+    <a class="btn js-form" href="#">Open the check-in form</a>
+  </div>
+  <div class="cicards" id="ciCards"></div>
+</div></section>
+<section style="padding-top:28px"><div class="wrap">
+  <h2>Where do you want to go?</h2>
+  <div class="tiles" style="margin-top:14px">
+    <a class="tile" href="schedule.html"><h3>Schedule and due dates</h3><p>Every due date with a countdown. Check things off as you finish.</p></a>
+    <a class="tile" href="brainstorm.html"><h3>What should we test?</h3><p>Pick what to change and what to measure, and the experiment builder checks your idea.</p></a>
+    <a class="tile" href="howto.html"><h3>How to do it</h3><p>Step-by-step help for planning, collecting data, analyzing, and presenting.</p></a>
+    <a class="tile" href="scholar.html"><h3>Sources and APA</h3><p>How to use Google Scholar, check a source, and write an APA citation.</p></a>
+    <a class="tile" href="stats.html"><h3>Data and p-value</h3><p>Build the AI prompt that analyzes your data and explains your p-value.</p></a>
+    <a class="tile" href="downloads.html"><h3>Packets and templates</h3><p>Worksheets, packets, and the slide template.</p></a>
+    <a class="tile" href="rubrics.html"><h3>Rubrics</h3><p>See exactly how your work is graded.</p></a>
+    <a class="tile" href="self-check.html"><h3>Grade yourself</h3><p>Score your own work with the rubric before you turn it in.</p></a>
+    <a class="tile" href="checkin.html"><h3>Partner check-in form</h3><p>Fill out the form every Tuesday and Friday.</p></a>
+  </div>
+</div></section>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data and p-value | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- STATS -->
+<section id="stats"><div class="wrap">
+  <h2>Data analysis and the p-value</h2>
+  <p class="lede">You will use AI as a data helper. Fill in your experiment on the left and copy the finished prompt. You still write the conclusion yourself, and you must be able to explain every number to the class.</p>
+  <div class="stats-grid">
+    <div class="panel">
+      <h3>Build your prompt</h3>
+      <div class="field"><label for="p_q">Research question</label><input id="p_q" placeholder="Does 60 s of jogging raise heart rate more than 30 s?"></div>
+      <div class="field"><label for="p_h">Hypothesis</label><textarea id="p_h" placeholder="If ... then ... because ..."></textarea></div>
+      <div class="field"><label for="p_iv">Independent variable</label><input id="p_iv" placeholder="Length of jogging (30 s or 60 s)"></div>
+      <div class="field"><label for="p_dv">Dependent variable and units</label><input id="p_dv" placeholder="Heart rate in beats per minute (bpm)"></div>
+      <div class="field"><label for="p_an">Name of Condition A</label><input id="p_an" placeholder="30 seconds"></div>
+      <div class="field"><label for="p_a">Condition A data (separate with commas)</label><input id="p_a" placeholder="96, 101, 99, 104, 98"></div>
+      <div class="field"><label for="p_bn">Name of Condition B</label><input id="p_bn" placeholder="60 seconds"></div>
+      <div class="field"><label for="p_b">Condition B data (separate with commas)</label><input id="p_b" placeholder="118, 122, 115, 125, 120"></div>
+      <div class="field"><label for="p_type">How were the groups measured?</label>
+        <select id="p_type">
+          <option value="paired">Same people or same trials in both conditions (paired t-test)</option>
+          <option value="independent">Different people or separate groups (two-sample t-test)</option>
+          <option value="unsure">I am not sure</option>
+        </select></div>
+    </div>
+    <div class="panel">
+      <h3>Your prompt</h3>
+      <div class="prompt-out" id="promptOut" tabindex="0"></div>
+      <div class="card-actions"><button class="btn" id="copyPrompt" type="button">Copy prompt</button><span id="copyMsg" class="note" role="status"></span></div>
+      <p class="note"><b>Check the AI.</b> AI can make math mistakes. In Google Sheets, type <code>=T.TEST(A2:A6, B2:B6, 2, 1)</code> with your own cell ranges. The last number is 1 for paired data and 3 for separate groups. Your answers should match.</p>
+      <p class="note"><b>What a p-value means.</b> It is the chance of seeing a difference this big if the condition really did nothing. A p-value below 0.05 means the difference is probably real (statistically significant). Above 0.05 means you cannot be sure it was not luck.</p>
+      <p class="note">Do not put last names or personal health details in the prompt.</p>
+    </div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+/* prompt builder */
+const pf=["p_q","p_h","p_iv","p_dv","p_an","p_a","p_bn","p_b","p_type"];
+function buildPrompt(){
+  const v=id=>($("#"+id).value||"").trim();
+  const ph=(x,h)=>x||"[fill in: "+h+"]";
+  const tt={paired:"a paired t-test (the same people or trials were measured in both conditions)",
+            independent:"a two-sample (independent) t-test",
+            unsure:"the correct kind of t-test. First ask me questions to figure out whether my data is paired or independent"}[v("p_type")];
+  return `I am a 7th grade student analyzing data from my science experiment. Please explain everything at a 7th grade level and show your steps so I can learn how it works.
+
+My research question: ${ph(v("p_q"),"research question")}
+My hypothesis: ${ph(v("p_h"),"hypothesis")}
+Independent variable: ${ph(v("p_iv"),"IV")}
+Dependent variable (with units): ${ph(v("p_dv"),"DV and units")}
+
+Data
+Condition A (${ph(v("p_an"),"name")}): ${ph(v("p_a"),"numbers")}
+Condition B (${ph(v("p_bn"),"name")}): ${ph(v("p_b"),"numbers")}
+
+Please do the following:
+1. Find the mean, median, range, and standard deviation for each condition.
+2. Tell me the difference between the two means and the percent change.
+3. Run ${tt}. Give me the t value, the degrees of freedom, and the p-value, and show the formula steps.
+4. Explain in plain words what the p-value means for my experiment, using 0.05 as the cutoff. Does the data support my hypothesis?
+5. Suggest the best type of graph and tell me what the title and axis labels should be.
+6. Name two possible sources of error based on how my experiment was set up.
+7. Do NOT write my conclusion for me. Help me understand the results so I can write it myself.
+8. At the end, remind me which Google Sheets T.TEST formula I should use to double-check your p-value.`;
+}
+function updPrompt(){ $("#promptOut").textContent=buildPrompt(); }
+pf.forEach(id=>$("#"+id).addEventListener("input",updPrompt)); updPrompt();
+$("#copyPrompt").addEventListener("click",async()=>{
+  const m=$("#copyMsg");
+  try{ await navigator.clipboard.writeText(buildPrompt()); m.textContent="Copied. Paste it into your AI tool."; }
+  catch(e){ const r=document.createRange(); r.selectNodeContents($("#promptOut")); const s=getSelection(); s.removeAllRanges(); s.addRange(r); m.textContent="Press Ctrl+C (or Cmd+C) to copy."; }
+});
+
+</script>
+</body>
+</html>

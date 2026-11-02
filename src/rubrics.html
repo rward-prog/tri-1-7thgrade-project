@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rubrics | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- RUBRICS -->
+<section id="rubrics"><div class="wrap">
+  <h2>Rubrics</h2>
+  <p class="lede">This is exactly how your work is graded. Read it before you start each part, and again before you turn it in. Then <a href="self-check.html">grade yourself</a> and fix what is weak.</p>
+  <div class="tabs" role="tablist">
+    <button class="chip-btn" role="tab" aria-pressed="true" data-tab="mm">Materials and Methods (36 pts)</button>
+    <button class="chip-btn" role="tab" aria-pressed="false" data-tab="final">Final presentation (72 pts)</button>
+  </div>
+  <div class="tab-panel" id="tab-mm"></div>
+  <div class="tab-panel" id="tab-final" hidden></div>
+</div></section>
+
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+/* rubrics (data lives in rubric-data.js) */
+function rubricTable(r){
+  const lv = r.sections[0].items[0].max===3 ? [3,2,1] : [4,3,2,1];
+  const head = "<tr><th>Criterion</th>"+lv.map(v=>"<th>"+v+(v===1?" point":" points")+"</th>").join("")+"</tr>";
+  let body="";
+  r.sections.forEach(sec=>{
+    const mx=sec.items.reduce((a,i)=>a+i.max,0);
+    body+=`<tr class="sec"><td colspan="${lv.length+1}">${sec.name} (${mx} points)</td></tr>`;
+    sec.items.forEach(it=>{
+      if(it.max===2){
+        body+=`<tr><td>${it.id}. ${it.name}</td><td colspan="${lv.length}"><b>2:</b> ${it.levels[2]} &nbsp; <b>1:</b> ${it.levels[1]} &nbsp; <b>0:</b> ${it.levels[0]}</td></tr>`;
+      } else {
+        body+=`<tr><td>${it.id}. ${it.name}</td>`+lv.map(v=>"<td>"+(it.levels[v]||"")+"</td>").join("")+"</tr>";
+      }
+    });
+  });
+  return `<div class="scrollx"><table class="rub">${head}${body}</table></div>`;
+}
+document.querySelector("[data-tab=mm]").textContent="Materials and Methods ("+rubricTotal(RUBRICS.mm)+" pts)";
+document.querySelector("[data-tab=final]").textContent="Final presentation ("+rubricTotal(RUBRICS.final)+" pts)";
+$("#tab-mm").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 3 = Excellent, 2 = Developing, 1 = Needs work, 0 = Not present. Up to 5 minutes. <a href="self-check.html?r=mm">Grade yourself</a>.</p>`+rubricTable(RUBRICS.mm);
+$("#tab-final").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 4 = Excellent, 3 = Good, 2 = Developing, 1 = Beginning, 0 = Not present. Presentation criteria are scored 0 to 2. 8 minutes or less. <a href="self-check.html?r=final">Grade yourself</a>.</p>`+rubricTable(RUBRICS.final);
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("[data-tab]").forEach(x=>{x.setAttribute("aria-pressed",x===b); $("#tab-"+x.dataset.tab).hidden=x!==b;});
+}));
+
+</script>
+</body>
+</html>

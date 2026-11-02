@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schedule | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- SCHEDULE -->
+<section id="schedule"><div class="wrap">
+  <h2>Schedule and due dates</h2>
+  <p class="lede">We meet Monday, Tuesday, Wednesday, and Friday. Check off each item when you finish it. Your checkmarks are saved on this device only. They are for you, and your teacher grades what you turn in.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter schedule" style="margin-top:26px">
+    <button class="chip-btn" aria-pressed="true" data-f="all">Everything</button>
+    <button class="chip-btn" aria-pressed="false" data-f="due">Due dates</button>
+    <button class="chip-btn" aria-pressed="false" data-f="checkin">Check-ins</button>
+    <button class="chip-btn" aria-pressed="false" data-f="present">Presentations</button>
+  </div>
+  <ol class="timeline" id="timeline"></ol>
+</div></section>
+
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+const TAGNAME={class:"In class",due:"Due",checkin:"Check-in",present:"Presenting"};
+function renderTimeline(filter){
+  const ol=$("#timeline"); ol.innerHTML="";
+  ITEMS.forEach((it,i)=>{
+    if(filter!=="all"){
+      const match = filter==="checkin" ? (it.t==="checkin"||it.form) : it.t===filter;
+      if(!match) return;
+    }
+    const d=parse(it.d), w=whenText(d), past=d<today, isToday=diffDays(d,today)===0;
+    const done=doneSet.has(it.d+it.title);
+    const li=document.createElement("li");
+    li.className="item t-"+it.t+(done?" done":"")+(past?" past":"")+(isToday?" today":"");
+    let btns="";
+    (it.files||[]).forEach(f=>{const x=FILES.find(z=>z.id===f); if(x) btns+=`<a class="btn small ghost" href="${x.href}" download>Download ${x.name}</a>`;});
+    if(it.link) btns+=`<a class="btn small ghost" href="${it.link}">${it.linkText}</a>`;
+    if(it.form) btns+=`<a class="btn small ghost" href="checkin.html">Check-in form</a>`;
+    const pts = it.pts?`<span class="pts">${it.pts} points</span>`:"";
+    li.innerHTML=`<div class="date"><small>${fmt(d,{weekday:"short"})}</small><span>${fmt(d,{month:"short",day:"numeric"})}</span></div>
+     <div class="card"><div class="card-top"><span class="tag ${it.t}">${TAGNAME[it.t]}</span>${pts}<span class="when${w.u?" urgent":""}">${w.t}</span></div>
+     <h3>${it.title}</h3><p>${it.body}</p>
+     <div class="card-actions">${btns}<label class="done-box"><input type="checkbox" ${done?"checked":""} data-key="${it.d+it.title}"> Done</label></div></div>`;
+    ol.appendChild(li);
+  });
+  ol.querySelectorAll("input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
+    const k=e.target.dataset.key; e.target.checked?doneSet.add(k):doneSet.delete(k); saveDone(); renderTimeline(currentFilter); renderUpNext();
+  }));
+}
+let currentFilter="all";
+$("#filters").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  currentFilter=b.dataset.f; document.querySelectorAll("#filters .chip-btn").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  renderTimeline(currentFilter);
+});
+renderTimeline("all");
+</script>
+</body>
+</html>

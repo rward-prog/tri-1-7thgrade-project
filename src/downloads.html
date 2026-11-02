@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downloads | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- DOWNLOADS -->
+<section id="downloads"><div class="wrap">
+  <h2>Packets and templates</h2>
+  <p class="lede">Download, fill out, and turn in as directed by your teacher.</p>
+  <div class="files" id="files"></div>
+</div></section>
+
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+/* files */
+$("#files").innerHTML=FILES.map(f=>`<div class="file"><h3>${f.name}</h3><p>${f.desc}</p><a class="btn" href="${f.href}" download>Download</a></div>`).join("");
+
+</script>
+</body>
+</html>

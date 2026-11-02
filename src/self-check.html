@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade Yourself | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <h1>Grade yourself first</h1>
+    <p>Use the same rubric your teacher will use. Be honest and point to real evidence in your work. You will see exactly what would raise your score. <a href="index.html">Back to the project page</a></p>
+  </div>
+
+  <div class="panel no-print">
+    <div class="btnrow" role="tablist" aria-label="Choose a rubric">
+      <button class="btn" id="tabMM" type="button">Materials and Methods (36 pts)</button>
+      <button class="btn ghost" id="tabFinal" type="button">Final presentation (72 pts)</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="info">
+      <div class="field"><label for="sName">Your name</label><input id="sName" autocomplete="off"></div>
+      <div class="field"><label for="sPartner">Partner</label><input id="sPartner" autocomplete="off"></div>
+      <div class="field"><label for="sDate">Date</label><input id="sDate" readonly></div>
+    </div>
+  </div>
+
+  <h2 id="rubTitle" style="margin:6px 0"></h2>
+  <div id="mmRoot"></div>
+  <div id="finalRoot" hidden></div>
+
+  <div class="total" aria-live="polite"><span id="totNum">0</span> / <span id="totMax">0</span><span class="chip" id="chip">-</span><small id="pctTxt"></small></div>
+
+  <div class="panel">
+    <h3 style="margin-bottom:8px">What would raise my score the most</h3>
+    <ul class="weak" id="weakList"><li>Score at least one criterion to see suggestions.</li></ul>
+  </div>
+
+  <div class="panel">
+    <div class="field"><label for="plan">My plan: what will I fix or practice before I present?</label><textarea id="plan"></textarea></div>
+    <div class="btnrow no-print" style="margin-top:12px">
+      <button class="btn" id="printBtn" type="button">Print or save as PDF</button>
+      <button class="btn ghost" id="copyBtn" type="button">Copy my summary</button>
+      <button class="btn gray" id="resetBtn" type="button">Start over</button>
+      <span class="note" id="msg" role="status"></span>
+    </div>
+  </div>
+</div>
+
+<script src="rubric-data.js"></script>
+<script src="scorer.js"></script>
+<script>
+(function(){
+  var $ = function(s){return document.querySelector(s);};
+  $("#sDate").value = new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+  var which = (new URLSearchParams(location.search).get("r")==="final") ? "final" : "mm";
+  var rub = RUBRICS, scorers = {};
+
+  function update(){
+    var r = rub[which], s = scorers[which];
+    var t = s.total(), m = s.max(), pct = m ? Math.round(t/m*100) : 0;
+    $("#totNum").textContent = t; $("#totMax").textContent = m;
+    $("#chip").textContent = s.scoredCount() ? letterGrade(pct) : "-";
+    $("#pctTxt").textContent = s.scoredCount() ? pct+"% ("+s.scoredCount()+" of "+s.items.length+" scored)" : "";
+    var gaps = s.items.map(function(it){
+      var v = s.getScores()[it.id]; return {it:it, v:v, gap: v===null ? 0 : it.max - v};
+    }).filter(function(x){return x.gap>0;}).sort(function(a,b){return b.gap-a.gap;}).slice(0,4);
+    var ul = $("#weakList");
+    if (!s.scoredCount()) { ul.innerHTML = "<li>Score at least one criterion to see suggestions.</li>"; return; }
+    if (!gaps.length) { ul.innerHTML = "<li>Every scored criterion is at full marks. Check that you scored them all.</li>"; return; }
+    ul.innerHTML = gaps.map(function(x){
+      var nextV = x.v+1, d = x.it.levels[nextV];
+      return "<li><b>"+x.it.id+". "+x.it.name+"</b> ("+x.v+" of "+x.it.max+"). To get "+nextV+": "+(d||"")+"</li>";
+    }).join("");
+  }
+  scorers.mm    = buildScorer($("#mmRoot"),    rub.mm,    {notes:true, onChange:update});
+  scorers.final = buildScorer($("#finalRoot"), rub.final, {notes:true, onChange:update});
+
+  function show(k){
+    which = k;
+    $("#mmRoot").hidden = k!=="mm"; $("#finalRoot").hidden = k!=="final";
+    $("#tabMM").className = "btn"+(k==="mm"?"":" ghost"); $("#tabFinal").className = "btn"+(k==="final"?"":" ghost");
+    $("#rubTitle").textContent = rub[k].title+" self-check";
+    update();
+  }
+  $("#tabMM").onclick = function(){ show("mm"); };
+  $("#tabFinal").onclick = function(){ show("final"); };
+  $("#tabMM").textContent="Materials and Methods ("+rubricTotal(rub.mm)+" pts)";
+  $("#tabFinal").textContent="Final presentation ("+rubricTotal(rub.final)+" pts)";
+  show(which);
+
+  $("#printBtn").onclick = function(){ window.print(); };
+  $("#resetBtn").onclick = function(){ if(confirm("Clear all scores and notes for this rubric?")){ scorers[which].reset(); $("#plan").value=""; } };
+  $("#copyBtn").onclick = function(){
+    var s = scorers[which], sc = s.getScores(), notes = s.getNotes();
+    var lines = [rub[which].title+" self-check", "Name: "+$("#sName").value+"  Partner: "+$("#sPartner").value, "Total: "+s.total()+" / "+s.max(), ""];
+    s.items.forEach(function(it){ lines.push(it.id+". "+it.name+": "+(sc[it.id]===null?"not scored":sc[it.id]+"/"+it.max)+(notes[it.id]?" - "+notes[it.id]:"")); });
+    lines.push("", "My plan: "+$("#plan").value);
+    var text = lines.join("\n");
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(
+      function(){ $("#msg").textContent = "Copied."; },
+      function(){ $("#msg").textContent = "Copy did not work. Use Print instead."; });
+  };
+})();
+</script>
+</body>
+</html>

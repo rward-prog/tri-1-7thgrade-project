@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brainstorm | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FA; --card:#FFFFFF; --ink:#13203B; --muted:#58637D; --line:#D6DEEB;
+  --pulse:#E5384A; --pulse-soft:#FDE7EA; --blue:#2358D8; --blue-soft:#E4ECFD;
+  --done:#1F8F6E; --done-soft:#DDF3EA; --sun:#FFC83D; --sun-soft:#FFF4D1;
+  --head:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.55;font-size:17px}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--head);line-height:1.1;letter-spacing:-.01em}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(243,246,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:600;font-size:15px;padding:7px 12px;border-radius:8px}
+nav a:hover{background:var(--blue-soft)}
+
+/* hero */
+.hero{padding:44px 0 0;background:#fff;border-bottom:1px solid var(--line);overflow:hidden}
+.hero h1{font-size:clamp(40px,7vw,76px);font-weight:800;max-width:11ch}
+.hero .sub{margin-top:14px;max-width:46ch;color:var(--muted);font-size:19px}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+.count{background:var(--ink);color:#fff;border-radius:18px;padding:18px 24px;min-width:230px;margin-bottom:6px}
+.count .big{font-family:var(--head);font-weight:800;font-size:64px;line-height:1;color:var(--sun)}
+.count .lbl{font-size:15px;opacity:.9}
+.count .lbl2{font-size:14px;opacity:.7;margin-top:6px}
+.ecg{display:block;width:100%;height:110px;margin-top:22px}
+.ecg .base{stroke:#E6EBF3;stroke-width:3;fill:none}
+.ecg .beat{stroke:var(--pulse);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:140 860;animation:run 3.2s linear infinite}
+@keyframes run{from{stroke-dashoffset:140}to{stroke-dashoffset:-1000}}
+@media (prefers-reduced-motion:reduce){.ecg .beat{animation:none;stroke-dasharray:none}}
+@media (max-width:720px){.hero-grid{grid-template-columns:1fr}.count{margin-bottom:0}}
+
+section{padding:56px 0 8px}
+section>.wrap>h2{font-size:clamp(30px,4.4vw,44px);font-weight:800;margin-bottom:8px}
+.lede{color:var(--muted);max-width:62ch;margin-bottom:24px}
+
+/* up next */
+.upnext{margin-top:28px;background:var(--sun-soft);border:2px solid var(--sun);border-radius:16px;padding:18px 22px;display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.upnext h3{font-size:22px}
+.upnext p{color:#5a4a10;font-size:16px}
+.btn{display:inline-block;font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;text-decoration:none;background:var(--blue);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:var(--blue-soft);color:var(--blue)}
+.btn.red{background:var(--pulse)}
+.btn[aria-disabled=true]{background:#CBD3E1;color:#5B6781;pointer-events:none}
+.btn.small{padding:6px 12px;font-size:14px}
+
+/* timeline */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip-btn{font:inherit;font-weight:600;font-size:14px;border:2px solid var(--line);background:#fff;color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer}
+.chip-btn[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.timeline{list-style:none;position:relative}
+.timeline::before{content:"";position:absolute;left:68px;top:8px;bottom:8px;width:3px;background:var(--line)}
+.item{display:grid;grid-template-columns:56px 1fr;gap:26px;margin-bottom:16px;position:relative}
+.date{text-align:center;font-family:var(--head);font-weight:800;line-height:1;padding-top:14px}
+.date small{display:block;font-family:var(--body);font-weight:600;font-size:13px;color:var(--muted);letter-spacing:.02em}
+.date span{font-size:28px}
+.item::after{content:"";position:absolute;left:62px;top:20px;width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+.item.t-due::after{border-color:var(--pulse);background:var(--pulse)}
+.item.t-present::after{border-color:var(--ink);background:var(--sun)}
+.item.done::after{border-color:var(--done);background:var(--done)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.item.today .card{border:2px solid var(--sun);box-shadow:0 0 0 4px var(--sun-soft)}
+.item.past.done .card{opacity:.6}
+.card-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px}
+.tag.class{background:var(--blue-soft);color:var(--blue)}
+.tag.due{background:var(--pulse-soft);color:#B3202F}
+.tag.checkin{background:#EDE7FB;color:#5B34B5}
+.tag.present{background:var(--ink);color:var(--sun)}
+.when{font-size:14px;color:var(--muted);font-weight:600;margin-left:auto}
+.when.urgent{color:#B3202F}
+.card h3{font-size:22px;margin-bottom:6px}
+.card p{font-size:16px;color:#2c3a58}
+.card ul{margin:6px 0 0 20px;font-size:16px;color:#2c3a58}
+.card-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.pts{font-weight:700;font-size:14px;color:var(--muted)}
+.done-box{margin-left:auto;display:flex;gap:8px;align-items:center;font-weight:600;font-size:15px;cursor:pointer}
+.done-box input{width:22px;height:22px;accent-color:var(--done)}
+@media (max-width:640px){
+  .timeline::before{left:12px}.item{grid-template-columns:1fr;gap:4px;padding-left:34px}
+  .item::after{left:5px;top:6px}.date{text-align:left;padding-top:0}.date small,.date span{display:inline;font-size:18px}
+}
+
+/* brainstorm */
+.guard{background:var(--pulse-soft);border-left:6px solid var(--pulse);border-radius:10px;padding:14px 18px;margin-bottom:22px}
+.guard h3{font-size:20px;margin-bottom:4px}
+.guard ul{margin-left:20px}
+.ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-top:6px}
+.idea{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.idea.hl{border:3px solid var(--sun);box-shadow:0 0 0 5px var(--sun-soft)}
+.idea h3{font-size:20px;margin-bottom:2px}
+.idea .lane{font-size:13px;font-weight:700;color:var(--blue)}
+.idea .lane.calm{color:#5B34B5}
+.idea dl{margin-top:8px;font-size:15px}
+.idea dt{font-weight:700;color:var(--muted);font-size:13px;margin-top:6px}
+.checker{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
+.checker h3{font-size:24px;margin-bottom:10px}
+.checker label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.checker input{width:20px;height:20px;margin-top:3px;accent-color:var(--done)}
+.verdict{margin-top:12px;font-weight:700;padding:10px 14px;border-radius:10px;background:var(--sun-soft)}
+.verdict.ok{background:var(--done-soft);color:#12634C}
+
+
+/* experiment builder */
+.builder{background:#fff;border:2px solid var(--blue);border-radius:16px;padding:20px;margin-bottom:26px}
+.builder h3{font-size:26px;margin-bottom:4px}
+.b-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 10px}
+@media (max-width:680px){.b-grid{grid-template-columns:1fr}}
+.b-verdict{margin-top:16px;border-radius:12px;padding:14px 16px;border-left:8px solid}
+.b-verdict h4{font-family:var(--head);font-size:22px;margin-bottom:2px}
+.b-verdict.great{background:var(--done-soft);border-color:var(--done)}
+.b-verdict.ok{background:var(--sun-soft);border-color:var(--sun)}
+.b-verdict.no{background:var(--pulse-soft);border-color:var(--pulse)}
+.b-alt{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.b-plan{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:680px){.b-plan{grid-template-columns:1fr}}
+.b-box{background:var(--bg);border-radius:12px;padding:12px 14px}
+.b-box.wide{grid-column:1/-1}
+.b-box h5{font-family:var(--head);font-size:17px;margin-bottom:4px}
+.b-box ul,.b-box ol{margin-left:20px;font-size:16px}
+.b-box li{margin-bottom:3px}
+.b-box p{font-size:16px}
+
+/* how-to */
+details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px}
+summary{cursor:pointer;font-family:var(--head);font-weight:800;font-size:21px;padding:16px 20px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;line-height:1;color:var(--blue)}
+details[open] summary::after{content:"\2212"}
+.dbody{padding:0 20px 18px;color:#24324F}
+.dbody p{margin-bottom:10px}
+.dbody ul,.dbody ol{margin:0 0 10px 22px}
+.dbody li{margin-bottom:4px}
+.eg{background:var(--blue-soft);border-radius:10px;padding:10px 14px;margin:8px 0 12px;font-size:16px}
+
+/* stats */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:820px){.stats-grid{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.panel h3{font-size:22px;margin-bottom:10px}
+.field{margin-bottom:10px}
+.field label{display:block;font-weight:700;font-size:14px;margin-bottom:3px}
+.field input,.field textarea,.field select{width:100%;font:inherit;font-size:16px;padding:9px 11px;border:2px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+.field textarea{min-height:64px;resize:vertical}
+.prompt-out{white-space:pre-wrap;font-size:14.5px;background:#0F1A33;color:#EAF0FF;border-radius:10px;padding:14px;max-height:420px;overflow:auto;font-family:ui-monospace,Menlo,Consolas,monospace}
+.note{font-size:15px;color:var(--muted);margin-top:8px}
+code{background:var(--blue-soft);padding:1px 6px;border-radius:5px;font-size:.92em}
+
+/* downloads */
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.file{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.file h3{font-size:20px}
+.file p{font-size:15px;color:var(--muted);flex:1}
+
+/* rubrics */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab-panel[hidden]{display:none}
+table.rub{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+table.rub th{background:var(--ink);color:#fff;text-align:left;padding:10px 12px;font-size:14px}
+table.rub td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+table.rub td:first-child{font-weight:700;width:22%}
+table.rub tr.sec td{background:var(--blue-soft);font-weight:800;font-family:var(--head);font-size:17px}
+.scrollx{overflow-x:auto}
+.draft{background:var(--sun-soft);border:2px dashed var(--sun);padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:15px}
+
+/* checkin */
+.checkin-box{background:var(--ink);color:#fff;border-radius:18px;padding:26px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.checkin-box h2{color:#fff;font-size:30px;margin-bottom:6px}
+.checkin-box p{opacity:.85;max-width:52ch}
+footer{margin:64px 0 40px;color:var(--muted);font-size:14px}
+
+/* multi-page additions */
+nav a[aria-current=page]{background:var(--ink);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:6px}
+.tile{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.tile h3{font-size:23px;margin-bottom:4px}
+.tile p{font-size:16px;color:var(--muted)}
+.pager{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:36px 0 0}
+.pager a{display:inline-block;text-decoration:none;font-weight:700;background:#fff;border:2px solid var(--line);color:var(--ink);padding:10px 18px;border-radius:10px}
+.pager a:hover{border-color:var(--blue);color:var(--blue)}
+.pager .next{margin-left:auto}
+
+/* two countdowns and check-in cards */
+.counts{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.counts .count{margin-bottom:0;padding:14px 22px}
+.counts .count .big{font-size:48px}
+.counts .count.second{background:var(--blue)}
+.formbar{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--ink);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:14px}
+.formbar h3{font-size:26px;color:#fff;margin-bottom:2px}
+.formbar p{opacity:.85;max-width:54ch;font-size:16px}
+.formbar .btn{background:var(--sun);color:var(--ink);font-size:18px;padding:13px 24px}
+.cicards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.cicard{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px}
+.cicard .cid{font-weight:700;font-size:14px;color:var(--muted)}
+.cicard .cidate{font-family:var(--head);font-weight:800;font-size:20px}
+.cicard .cibig{font-family:var(--head);font-weight:800;font-size:44px;line-height:1.1;margin-top:4px}
+.cicard .cismall{font-size:14px;color:var(--muted)}
+.cicard.next{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.cicard.now{border-color:var(--pulse);background:var(--pulse-soft)}
+.cicard.now .cibig{color:#B3202F}
+.cicard.past{opacity:.55}
+.cicard.past .cibig{font-size:30px;color:var(--muted)}
+
+/* sources page */
+.mock{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;max-width:760px;font-family:Arial,Helvetica,sans-serif}
+.mrow{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.callout{flex:none;width:24px;height:24px;border-radius:50%;background:var(--pulse);color:#fff;font-weight:800;font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--body)}
+.mtitle{color:#1a0dab;font-size:19px;text-decoration:underline}
+.mauth{color:#006621;font-size:14px}
+.msnip{color:#4d5156;font-size:14px}
+.mlink{color:#1a0dab;font-size:14px;background:#EEF3FF;padding:1px 8px;border-radius:4px}
+.mactions{color:#1a0dab;font-size:13px}
+.mlegend{margin:12px 0 4px 22px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-top:6px}
+.topic{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:var(--ink)}
+.topic:hover{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.topic b{display:block;font-size:16px}
+.topic span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.apa{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;margin:6px 0;font-size:16px;padding-left:34px;text-indent:-20px}
+.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
+@media (max-width:760px){.cb-grid{grid-template-columns:1fr}}
+.cb-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.cb-grid .cb-row:not(.au){grid-template-columns:1fr 1fr 1fr}
+.cb-out{margin-top:16px}
+.cb-out h4{font-family:var(--head);font-size:18px;margin-top:10px}
+
+/* fixes: nav fits, date column, tighter timeline */
+nav .wrap{flex-wrap:wrap;overflow-x:visible;justify-content:center;gap:2px}
+nav a{padding:7px 11px}
+@media (max-width:700px){nav .wrap{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start}}
+.timeline::before{left:94px}
+.item{grid-template-columns:76px 1fr;gap:28px}
+.item::after{left:87px}
+.date{white-space:nowrap}
+.date span{font-size:26px}
+@media (max-width:640px){
+  .item{grid-template-columns:1fr;gap:4px;padding-left:34px}
+  .timeline::before{left:12px}.item::after{left:5px}
+  .date span{font-size:18px}
+}
+
+</style>
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<!-- BRAINSTORM -->
+<section id="brainstorm"><div class="wrap">
+  <h2>What should we test?</h2>
+  <p class="lede">Pick exercise (heart rate goes up) or the opposite (calming down and meditation). Your experiment needs two conditions to compare, because that is what makes the p-value work later. Steal an idea below or invent your own.</p>
+  <div class="guard">
+    <h3>Ground rules for every experiment</h3>
+    <ul>
+      <li>No caffeine, energy drinks, or supplements this year.</li>
+      <li>Light to moderate exercise only. Stop right away if you feel dizzy, sick, or hurt.</li>
+      <li>Your teacher must approve your plan before you collect any data.</li>
+      <li>Keep health information private. Use first names or initials in anything you share.</li>
+    </ul>
+  </div>
+  <div class="builder" id="builder">
+    <h3>Experiment builder</h3>
+    <p class="note" style="margin:0">Pick one thing to change and one thing to measure. The builder tells you if they make a real experiment, then gives you a starting plan. Everything here works in an NYC apartment, a school hallway, or a playground.</p>
+    <div class="b-grid">
+      <div class="field"><label for="ivSel">Independent variable (what you change)</label><select id="ivSel"></select></div>
+      <div class="field"><label for="dvSel">Dependent variable (what you measure)</label><select id="dvSel"></select></div>
+    </div>
+    <button class="btn red small" id="bRandom" type="button">Pick a pair that works</button>
+    <div id="bOut" aria-live="polite"></div>
+  </div>
+
+  <div class="filters" role="group" aria-label="Idea type">
+    <button class="chip-btn" aria-pressed="true" data-lane="all">All ideas</button>
+    <button class="chip-btn" aria-pressed="false" data-lane="exercise">Exercise</button>
+    <button class="chip-btn" aria-pressed="false" data-lane="calm">Calm down</button>
+    <button class="btn red small" id="surprise" type="button">Surprise me</button>
+  </div>
+  <div class="ideas" id="ideas"></div>
+
+  <div class="checker">
+    <h3>Check your idea</h3>
+    <p class="note" style="margin:0 0 8px">Check each box that is true for your idea. You want all six before you ask for approval.</p>
+    <div id="checks"></div>
+    <div class="verdict" id="verdict"></div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="pager" id="pager"></div></div>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script>
+/* =====================================================================
+   RUBRIC DATA: the single source of truth.
+   Edit wording or point values here and the student site, the student
+   self-check page, and the teacher grader all update together.
+   max = points for the criterion. levels = what each score looks like.
+   ===================================================================== */
+window.RUBRICS = {
+
+/* ---------- Materials and Methods (check-in) presentation, 36 pts ---------- */
+mm: {
+  key: "mm",
+  title: "Materials and Methods Presentation",
+  timeMax: 5,
+  sections: [
+    { name: "Scientific thinking", items: [
+      { id:"1A", name:"Research question", max:3, levels:{
+        3:"Clear, testable question at or above 7th-grade level; strong scientific thinking.",
+        2:"Testable but may be too simple or slightly below grade level.",
+        1:"Unclear, untestable, or well below grade level.",
+        0:"No research question presented." }},
+      { id:"1B", name:"Hypothesis", max:3, levels:{
+        3:"In proper If, then format and logically connects to the research question.",
+        2:"Present and mostly correct, but format or the connection to the question is weak.",
+        1:"Missing, not in If/Then format, or does not relate to the experiment.",
+        0:"No hypothesis presented." }},
+      { id:"1C", name:"Variables (IV, DV, controls)", max:3, levels:{
+        3:"Correctly identifies IV, DV, and at least 3 important controls with clear explanations.",
+        2:"Identifies IV, DV, and some controls, but explanations are incomplete or partly incorrect.",
+        1:"Variables missing or wrong, or fewer than 3 controls listed.",
+        0:"No variables identified." }}
+    ]},
+    { name: "Procedure and materials", items: [
+      { id:"2A", name:"Method / procedure", max:3, levels:{
+        3:"Detailed, step-by-step procedure another group could replicate; the bulk of the presentation.",
+        2:"Present but lacks some detail or steps needed to replicate.",
+        1:"Vague, incomplete, or only briefly mentioned.",
+        0:"No procedure presented." }},
+      { id:"2B", name:"Materials list", max:3, levels:{
+        3:"Complete bullet list of all materials needed; specific and accurate.",
+        2:"Materials listed but some items are missing or not specific.",
+        1:"Missing, incomplete, or not a bullet list.",
+        0:"No materials list presented." }},
+      { id:"2C", name:"Timeline and planning", max:3, levels:{
+        3:"Realistic hour estimate with clear justification and a specific plan for when and how work will be completed.",
+        2:"Time estimate given but justification or plan is vague.",
+        1:"No estimate, or the plan is unrealistic or missing.",
+        0:"No timeline or planning presented." }}
+    ]},
+    { name: "Sources", items: [
+      { id:"3A", name:"APA sources", max:3, levels:{
+        3:"2 or more sources on separate slides, each with a consistent APA citation, a clear summary, and a 'What this means' statement for the experiment.",
+        2:"1 source with APA citation and summary, or 2 sources with inconsistent citations, a weak summary, or no 'What this means'.",
+        1:"No sources, or sources lack APA format and meaningful summaries.",
+        0:"No sources of any kind." }}
+    ]},
+    { name: "Slide design", items: [
+      { id:"4A", name:"Slide design", max:3, levels:{
+        3:"Photos from your own experiment on every slide; minimal text; slide titles capitalized; clean and engaging.",
+        2:"Most slides have photos of the experiment; some are text-heavy, off-topic, or have lowercase titles.",
+        1:"Few experiment photos, GIFs or unrelated images, or cluttered with too much text.",
+        0:"No slides shown." }}
+    ]},
+    { name: "Public speaking", items: [
+      { id:"5A", name:"Speaking skills", max:3, levels:{
+        3:"Clear and confident, consistent eye contact, does not read from the slides.",
+        2:"Generally clear but relies on notes or slides; some hesitation.",
+        1:"Hard to hear or understand; reads directly from slides.",
+        0:"Did not speak or was absent." }},
+      { id:"5B", name:"Organization and flow", max:3, levels:{
+        3:"Logical order with smooth transitions that connect each slide to the next; easy to follow.",
+        2:"Mostly logical but some parts feel out of place or abrupt.",
+        1:"Disorganized or difficult to follow.",
+        0:"No discernible structure." }},
+      { id:"5C", name:"Equal participation", max:3, levels:{
+        3:"All partners speak a roughly equal amount of time.",
+        2:"Most partners speak, but time is noticeably uneven.",
+        1:"One partner dominates; the other barely speaks.",
+        0:"Only one partner spoke, or the group was absent." }},
+      { id:"5D", name:"Time (5 min max)", max:3, levels:{
+        3:"4 to 5 minutes, well paced with nothing rushed or dragged out.",
+        2:"Slightly under or over (3 to 4 or 5 to 6 minutes); pacing is uneven.",
+        1:"Under 3 minutes or over 6 minutes; rushed or padded.",
+        0:"No presentation given." }}
+    ]}
+  ]
+},
+
+/* ---------- Final presentation, 72 pts ---------- */
+final: {
+  key: "final",
+  title: "Final Presentation",
+  timeMax: 8,
+  sections: [
+    { name: "Introduction", items: [
+      { id:"1A", name:"Background and sources", max:4, levels:{
+        4:"Clear background a classmate can follow; two credible Google Scholar sources, each with a summary and a 'What this means' for the experiment.",
+        3:"Adequate background; two sources with summaries, but 'What this means' is thin or missing for one.",
+        2:"Background is vague or incomplete, or only one source.",
+        1:"Background and/or sources missing." }},
+      { id:"1B", name:"Research question", max:4, levels:{
+        4:"Clear, specific, and testable.",
+        3:"Clear but slightly broad.",
+        2:"Present but unclear.",
+        1:"Missing or not a real question." }},
+      { id:"1C", name:"Hypothesis with reasoning", max:4, levels:{
+        4:"If, then, because prediction with strong reasoning supported by a source.",
+        3:"Reasonable prediction; the reasoning or source is thin.",
+        2:"Prediction is weak or poorly explained.",
+        1:"Missing or unrelated to the experiment." }}
+    ]},
+    { name: "Recap, data, and graphs", items: [
+      { id:"2A", name:"Recap of the experiment", max:4, levels:{
+        4:"One clear recap slide (question, IV, DV, conditions, number of trials, hypothesis) placed right before the results so the audience can follow the data.",
+        3:"Recap slide is present with one small piece missing.",
+        2:"Recap is incomplete or hard to follow.",
+        1:"No recap slide." }},
+      { id:"2B", name:"Data table and graph together", max:4, levels:{
+        4:"Complete table (all 10 data points, units) and a graph that accurately matches it, shown together on the same slide.",
+        3:"Table and graph are both present with minor issues, or they are on separate slides.",
+        2:"Table or graph is partly complete, messy, or confusing.",
+        1:"Missing, unusable, or the wrong type of graph." }},
+      { id:"2C", name:"Labels, units, and clarity", max:4, levels:{
+        4:"Clear title, labeled axes with units, easy to read.",
+        3:"Mostly clear; minor errors.",
+        2:"Some labels or units missing.",
+        1:"Poor or missing labels." }}
+    ]},
+    { name: "Data analysis", items: [
+      { id:"3A", name:"Compare the conditions", max:4, levels:{
+        4:"Uses numbers (averages, differences, percent change) to clearly compare the conditions.",
+        3:"Compares the conditions with some numbers.",
+        2:"Limited or vague comparison.",
+        1:"Little or no comparison." }},
+      { id:"3B", name:"P-value analysis", max:4, levels:{
+        4:"States the p-value and explains in their own words whether the difference is statistically significant and what that means.",
+        3:"States the p-value with a mostly correct explanation.",
+        2:"Mentions the p-value but the explanation is vague or partly incorrect.",
+        1:"No p-value or no explanation." }},
+      { id:"3C", name:"Explain why it happened", max:4, levels:{
+        4:"Thoughtful scientific explanation using science vocabulary.",
+        3:"Reasonable explanation.",
+        2:"Vague or partly incorrect.",
+        1:"Little or no explanation." }}
+    ]},
+    { name: "Conclusion, errors, and future", items: [
+      { id:"4A", name:"Conclusion about the hypothesis", max:4, levels:{
+        4:"Clearly states whether the hypothesis was supported, backed by evidence and the p-value.",
+        3:"States whether it was supported with brief evidence.",
+        2:"Vague or weak.",
+        1:"Missing or incorrect." }},
+      { id:"4B", name:"Possible errors", max:4, levels:{
+        4:"Several specific, realistic errors in the design, equipment, measuring, or uncontrolled variables. 'Human error' does not count.",
+        3:"At least one specific, realistic error that is not 'human error'.",
+        2:"Vague, unrealistic, or mostly 'human error'.",
+        1:"Little or none, or only 'human error' or 'we messed up'." }},
+      { id:"4C", name:"How they would fix the errors", max:4, levels:{
+        4:"Specific, practical changes to the experiment tied to each error.",
+        3:"At least one reasonable fix.",
+        2:"Vague ('be more careful').",
+        1:"No meaningful fixes." }},
+      { id:"4D", name:"Future expansion", max:4, levels:{
+        4:"Creative and realistic bigger version of the study with a clear purpose.",
+        3:"Reasonable expansion idea.",
+        2:"Vague or unrealistic.",
+        1:"Missing." }}
+    ]},
+    { name: "References", items: [
+      { id:"5A", name:"APA references", max:4, levels:{
+        4:"Two credible sources; citations on the slides and on the References slide are correct and consistent.",
+        3:"Two sources with minor APA errors or small inconsistencies.",
+        2:"Fewer than two sources.",
+        1:"No References slide or sources." }}
+    ]},
+    { name: "Public speaking and slide design", items: [
+      { id:"6A", name:"Clarity and volume", max:2, levels:{ 2:"Clear and easy to hear.", 1:"Generally clear, but often hard to hear.", 0:"Unable to hear." }},
+      { id:"6B", name:"Eye contact", max:2, levels:{ 2:"Regular eye contact.", 1:"Some eye contact.", 0:"Little or none." }},
+      { id:"6C", name:"Use of slides and notes", max:2, levels:{ 2:"Minimal reading.", 1:"Some reading.", 0:"Mostly reads." }},
+      { id:"6D", name:"Handling questions", max:2, levels:{ 2:"Confident and accurate.", 1:"Partial or needed prompting.", 0:"Struggles." }},
+      { id:"6E", name:"Slide readability and titles", max:2, levels:{ 2:"Large enough to read from the back; every slide title is capitalized.", 1:"Mostly readable, or a few titles are not capitalized.", 0:"Often too small, or titles are not capitalized." }},
+      { id:"6F", name:"Images from the experiment", max:4, levels:{
+        4:"Every image comes from your experiment (your own photos, graphs, or labeled diagrams). No GIFs or random pictures. Any AI-made image is labeled.",
+        3:"Nearly all images are from the experiment; one is generic or an AI image is not labeled.",
+        2:"Several images are generic, from a search for your hypothesis, or unrelated.",
+        1:"Mostly GIFs, memes, or unrelated images." }},
+      { id:"6G", name:"Equal participation", max:2, levels:{ 2:"Both partners speak about equally.", 1:"Time is noticeably uneven.", 0:"One partner dominates or does not speak." }},
+      { id:"6I", name:"Flow and storytelling", max:4, levels:{
+        4:"Tells a story: a reason to care, each slide leads into the next with a connecting sentence, and it ends with what it means. Not just the checklist in order.",
+        3:"Mostly connected; a few slides feel like separate pieces.",
+        2:"Follows the rubric order with little connection between slides.",
+        1:"Disorganized or hard to follow." }},
+      { id:"6H", name:"Time (8 min max)", max:2, levels:{ 2:"5 to 8 minutes and well paced.", 1:"3 to 5 minutes, or 8 to 9 minutes.", 0:"Under 3 minutes or over 9 minutes." }}
+    ]}
+  ]
+}
+};
+
+/* helpers */
+window.rubricTotal = function(r){ let t=0; r.sections.forEach(s=>s.items.forEach(i=>t+=i.max)); return t; };
+
+/* which criterion is the time score, and how minutes map to a suggested score */
+RUBRICS.mm.timeId = "5D";
+RUBRICS.mm.timeScore = function(m){ return (m>=4&&m<=5)?3 : ((m>=3&&m<4)||(m>5&&m<=6))?2 : m>=0.5?1 : 0; };
+RUBRICS.final.timeId = "6H";
+RUBRICS.final.timeScore = function(m){ return (m>=5&&m<=8)?2 : ((m>=3&&m<5)||(m>8&&m<=9))?1 : 0; };
+
+</script>
+<script>
+/* TEACHER SETTINGS live here: dates, form link, schedule items, downloads. Edit this file to change the whole site. */
+/* =========================================================
+   TEACHER SETTINGS: edit this block, nothing else needs to change
+   ========================================================= */
+const FORM_URL = "https://forms.gle/RnyN9xcUZ1xG9yEDA";   // same form every time; students mark the day
+const CLASS_WEEKDAYS = [1,2,3,5];    // Mon, Tue, Wed, Fri (0 = Sunday)
+const NO_CLASS = [                   // days off, format YYYY-MM-DD
+  "2026-11-20",                      // no school
+];
+const MM_DATE      = "2026-11-11";   // Materials and Methods presentation day (first countdown)
+const PRESENT_DATE = "2026-11-17";   // first final-presentation day (countdown target)
+const END_DATE     = "2026-11-23";   // last overflow day
+
+// type: class | due | checkin | present      ci:true = partner check-in form due that day
+const ITEMS = [
+ {d:"2026-11-03",t:"class",title:"Kickoff and brainstorm day",body:"Learn the project, choose your partner, and start brainstorming what to test. Name the IV, DV, and controls for two ideas.",link:"brainstorm.html",linkText:"Open the experiment builder"},
+ {d:"2026-11-04",t:"due",title:"Methods Worksheet due",pts:22,body:"Both experiment ideas, your pick, materials, step-by-step procedure, hypothesis, and why you chose it. Your teacher approves your plan today.",files:["methods"]},
+ {d:"2026-11-06",t:"checkin",title:"Partner check-in #1 and data collection, day 1",body:"Fill out the check-in form. Start collecting data as soon as your plan is approved. Record every result in your data table right away. Start the Materials and Methods slides from the template.",files:["mmdeck"],form:true,ci:true},
+ {d:"2026-11-09",t:"class",title:"Data collection, day 2",body:"Keep running your trials. Work toward all 10 data points and keep building your Materials and Methods slides."},
+ {d:"2026-11-10",t:"checkin",title:"Data table complete and partner check-in #2",body:"Your data table must have all 10 data points today, and your Materials and Methods slides must be ready to present tomorrow. Fill out the check-in form.",link:"self-check.html?r=mm",linkText:"Grade your slides first",form:true,ci:true},
+ {d:"2026-11-11",t:"present",title:"Materials and Methods presentations",body:"Up to 5 minutes: your experiment, methods, and data table. Both partners speak. After presentations, start your Introduction Packet.",link:"rubrics.html",linkText:"See the rubric",files:["intro"]},
+ {d:"2026-11-13",t:"due",title:"Introduction Packet due, plus check-in #3",pts:23,body:"Two APA-cited sources from Google Scholar, plus one source that supports your hypothesis. Fill out the check-in form. Start your graphs, run your data through the AI prompt, and start your final slides from the template.",files:["intro","finaldeck"],link:"scholar.html",linkText:"Google Scholar and APA help",form:true,ci:true},
+ {d:"2026-11-16",t:"due",title:"Graphs, p-value, and Conclusion Packet due",pts:18,body:"Finished graph(s), p-value analysis, and all five conclusion parts, including errors, improvements, and future expansion.",files:["conclusion"],link:"stats.html",linkText:"Data and p-value help"},
+ {d:"2026-11-16",t:"due",title:"Final slides due and practice day",body:"Submit your finished presentation by the end of the day. Practice out loud with your partner. Both of you must speak. Your presentation is 8 minutes or less.",files:["finaldeck"],link:"self-check.html?r=final",linkText:"Grade yourself first"},
+ {d:"2026-11-17",t:"present",title:"Final presentations, day 1, plus check-in #4",body:"Present your experiment from start to finish in 8 minutes or less. Be ready for questions from the audience. Fill out the last check-in form today.",form:true,ci:true},
+ {d:"2026-11-18",t:"present",title:"Final presentations, day 2",body:"Any remaining groups present."},
+ {d:"2026-11-23",t:"present",title:"Final presentations, overflow day",body:"Only if a group has not presented yet."}
+];
+
+const FILES = [
+ {id:"methods",name:"Methods Worksheet",desc:"Brainstorm two ideas, pick one, list materials and steps, and write your hypothesis. 22 points.",href:"files/Exercise_Project_Methods_Worksheet.docx"},
+ {id:"intro",name:"Introduction Worksheet",desc:"Background, who benefits, four key facts, two Google Scholar sources in APA, and your hypothesis. 23 points.",href:"files/Exercise_Project_Introduction_Worksheet.docx"},
+ {id:"conclusion",name:"Conclusion Packet",desc:"Purpose, claim, evidence, reasoning, errors, improvements, and future expansion. 18 points.",href:"files/Conclusion_Packet.docx"},
+ {id:"mmdeck",name:"Materials and Methods slides template",desc:"For 11/11. Built from the rubric: 14 slides with a Read This First slide, hint boxes, and a spot for your photos. Delete the hints before you present.",href:"files/Materials_Methods_Slides_Template.pptx"},
+ {id:"finaldeck",name:"Final presentation slides template",desc:"For 11/17 and 11/18. 16 slides built from the rubric, with a recap slide, a table and graph slide, and a Read This First slide. Start from your Materials and Methods slides.",href:"files/Final_Presentation_Slides_Template.pptx"}
+];
+
+
+</script>
+<script>
+/* =========================================================
+   CODE
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const parse = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const qp = new URLSearchParams(location.search);
+let today = qp.get("today") ? parse(qp.get("today")) : new Date();
+today = new Date(today.getFullYear(),today.getMonth(),today.getDate());
+const DAY = 86400000;
+const diffDays = (a,b)=>Math.round((a-b)/DAY);
+const fmt = (d,o)=>d.toLocaleDateString("en-US",o);
+const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const isClassDay = d => CLASS_WEEKDAYS.includes(d.getDay()) && !NO_CLASS.includes(iso(d));
+function classDaysBetween(from,to){ // class days after `from` up to and including `to`
+  let n=0; for(let d=new Date(from.getTime()+DAY); d<=to; d=new Date(d.getTime()+DAY)) if(isClassDay(d)) n++; return n;
+}
+let doneSet = new Set();
+try{ doneSet = new Set(JSON.parse(localStorage.getItem("exproj-done")||"[]")); }catch(e){}
+function saveDone(){ try{ localStorage.setItem("exproj-done",JSON.stringify([...doneSet])); }catch(e){} }
+
+/* hero countdowns: Materials and Methods first, then the final presentations */
+(function(){
+  if(!$("#mmDays")) return;
+  const mm=parse(MM_DATE), n=diffDays(mm,today);
+  if(n>0){ $("#mmDays").textContent=n; $("#mmLbl").textContent=n===1?"day until Materials and Methods presentations":"days until Materials and Methods presentations";
+    {const c=classDaysBetween(today,mm); $("#mmClass").textContent=c+(c===1?" class day":" class days")+" left, including presentation day";} }
+  else if(n===0){ $("#mmDays").textContent="Today"; $("#mmLbl").textContent="Materials and Methods presentations"; $("#mmClass").textContent=""; }
+  else { $("#mmDays").textContent="Done"; $("#mmLbl").textContent="Materials and Methods presentations are finished"; $("#mmClass").textContent=""; }
+
+  const target=parse(PRESENT_DATE), end=parse(END_DATE), m=diffDays(target,today);
+  if(m>0){ $("#daysLeft").textContent=m; $("#daysLbl").textContent=m===1?"day until final presentations":"days until final presentations";
+    {const c=classDaysBetween(today,target); $("#classLeft").textContent=c+(c===1?" class day":" class days")+" left, including presentation day";} }
+  else if(today<=end){ $("#daysLeft").textContent="Now"; $("#daysLbl").textContent="Final presentations are happening"; $("#classLeft").textContent=""; }
+  else { $("#daysLeft").textContent="Done"; $("#daysLbl").textContent="Final presentations are finished"; $("#classLeft").textContent=""; }
+})();
+
+/* check-in countdown cards */
+function renderCheckins(){
+  const box=$("#ciCards"); if(!box) return;
+  const list=ITEMS.filter(i=>i.ci);
+  let nextFound=false;
+  box.innerHTML=list.map((it,i)=>{
+    const d=parse(it.d), n=diffDays(d,today), c=n>0?classDaysBetween(today,d):0;
+    let cls="cicard", big, small;
+    if(n<0){ cls+=" past"; big="Passed"; small="Due "+fmt(d,{month:"short",day:"numeric"}); }
+    else if(n===0){ cls+=" now"; nextFound=true; big="Today"; small="Due by the end of class"; }
+    else { if(!nextFound){ cls+=" next"; nextFound=true; } big=n; small=(n===1?"day":"days")+" left ("+c+" class day"+(c===1?"":"s")+")"; }
+    return `<div class="${cls}"><div class="cid">Check-in ${i+1}</div><div class="cidate">${fmt(d,{weekday:"long",month:"short",day:"numeric"})}</div><div class="cibig">${big}</div><div class="cismall">${small}</div></div>`;
+  }).join("");
+}
+document.querySelectorAll(".js-form").forEach(a=>{
+  if(FORM_URL){ a.href=FORM_URL; a.target="_blank"; a.rel="noopener"; }
+  else { a.removeAttribute("href"); a.setAttribute("aria-disabled","true"); a.textContent="Form link coming soon"; }
+});
+
+function whenText(d){
+  const n=diffDays(d,today);
+  if(n===0) return {t:"Today",u:true};
+  if(n===1) return {t:"Tomorrow",u:true};
+  if(n<0) return {t:Math.abs(n)===1?"Yesterday":"Passed",u:false};
+  const c=classDaysBetween(today,d);
+  return {t:"In "+c+" class day"+(c===1?"":"s")+" ("+n+" calendar days)",u:n<=2};
+}
+function renderUpNext(){
+  const box=$("#upnext"); if(!box) return;
+  const nxt=ITEMS.find(it=>parse(it.d)>=today && !doneSet.has(it.d+it.title));
+  if(!nxt){ box.innerHTML=`<div><h3>You are all caught up.</h3><p>Nothing else is on your list.</p></div>`; return; }
+  const d=parse(nxt.d), w=whenText(d);
+  box.innerHTML=`<div><h3>Up next: ${nxt.title}</h3><p>${fmt(d,{weekday:"long",month:"long",day:"numeric"})}. ${w.t}.</p></div>`;
+}
+
+
+/* ---------- navigation and pager ---------- */
+const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["howto.html","How to"],["scholar.html","Sources"],["stats.html","Data"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Grade yourself"]];
+(function(){
+  const cur=(location.pathname.split("/").pop()||"index.html");
+  const nav=$("#navlinks");
+  if(nav) nav.innerHTML=PAGES.map(p=>`<a href="${p[0]}"${p[0]===cur?' aria-current="page"':""}>${p[1]}</a>`).join("");
+  const pg=$("#pager");
+  if(pg){
+    const i=PAGES.findIndex(p=>p[0]===cur);
+    let h="";
+    if(i>0) h+=`<a class="prev" href="${PAGES[i-1][0]}">Back: ${PAGES[i-1][1]}</a>`;
+    if(i>=0&&i<PAGES.length-1) h+=`<a class="next" href="${PAGES[i+1][0]}">Next: ${PAGES[i+1][1]}</a>`;
+    pg.innerHTML=h;
+  }
+  renderUpNext(); renderCheckins();
+})();
+
+</script>
+<script>
+const IDEAS = [
+ {lane:"exercise",name:"Jumping jacks: 30 s vs 60 s",iv:"Length of jumping jacks",dv:"Heart rate right after (bpm)",how:"Count pulse for 15 s and multiply by 4",keep:"Same person, same pace, same rest before, same floor"},
+ {lane:"exercise",name:"Walk vs jog in place",iv:"Intensity (walking or jogging in place for 1 minute)",dv:"Heart rate right after (bpm)",how:"Pulse count or watch",keep:"Same time, same person, same 1 minute timer"},
+ {lane:"exercise",name:"Warm-up and push-ups",iv:"Warm-up (1 minute of stretching vs none)",dv:"Number of push-ups in 30 seconds",how:"Partner counts and times",keep:"Same push-up style, same rest, same time of day"},
+ {lane:"exercise",name:"Recovery speed",iv:"After 1 minute of exercise: sit still vs walk slowly",dv:"Seconds until heart rate is within 10 bpm of resting",how:"Pulse check every 15 s with a timer",keep:"Same exercise, same person, same resting baseline"},
+ {lane:"exercise",name:"Music tempo and squats",iv:"Music (fast vs slow)",dv:"Squats completed in 1 minute",how:"Partner counts",keep:"Same volume, same depth of squat, same rest"},
+ {lane:"exercise",name:"Jump rope vs jumping jacks",iv:"Type of exercise",dv:"Heart rate after 1 minute (bpm)",how:"Pulse count",keep:"Same time, same person, same rest"},
+ {lane:"calm",name:"Deep breathing",iv:"2 minutes of slow breathing vs 2 minutes sitting quietly",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same seat, same room, same time of day"},
+ {lane:"calm",name:"Calm vs upbeat music",iv:"Type of music (calm or upbeat) for 3 minutes",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same volume, same person, same seat"},
+ {lane:"calm",name:"Guided meditation",iv:"Guided meditation vs sitting quietly",dv:"Heart rate after 3 minutes (bpm)",how:"Pulse count",keep:"Same length, same room, nothing else going on"},
+ {lane:"calm",name:"Lying down vs standing",iv:"Body position",dv:"Resting heart rate (bpm)",how:"Pulse count after 2 minutes",keep:"Same person, same rest first, same room"}
+];
+
+const CHECKS = [
+ "I change only one thing (my independent variable).",
+ "I measure with a number (my dependent variable has units).",
+ "I compare two conditions, like A vs B.",
+ "I can repeat it so my data adds up to 10 data points.",
+ "It is safe, uses no caffeine, and is school appropriate.",
+ "I can do it with materials we can get and finish by the data deadline."
+];
+
+/* ideas */
+let lane="all";
+function renderIdeas(hl){
+  const box=$("#ideas"); box.innerHTML="";
+  IDEAS.filter(x=>lane==="all"||x.lane===lane).forEach(x=>{
+    const el=document.createElement("article"); el.className="idea"+(hl===x.name?" hl":""); if(hl===x.name) el.id="hl";
+    el.innerHTML=`<div class="lane ${x.lane}">${x.lane==="calm"?"Calm down":"Exercise"}</div><h3>${x.name}</h3>
+     <dl><dt>Independent variable</dt><dd>${x.iv}</dd><dt>Dependent variable</dt><dd>${x.dv}</dd><dt>How to measure</dt><dd>${x.how}</dd><dt>Keep the same</dt><dd>${x.keep}</dd></dl>`;
+    box.appendChild(el);
+  });
+}
+document.querySelectorAll("[data-lane]").forEach(b=>b.addEventListener("click",()=>{
+  lane=b.dataset.lane; document.querySelectorAll("[data-lane]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderIdeas();
+}));
+$("#surprise").addEventListener("click",()=>{
+  const pool=IDEAS.filter(x=>lane==="all"||x.lane===lane);
+  const pick=pool[Math.floor(Math.random()*pool.length)]; renderIdeas(pick.name);
+  const h=document.getElementById("hl"); if(h) h.scrollIntoView({behavior:"smooth",block:"center"});
+});
+(function(){
+  const c=$("#checks");
+  CHECKS.forEach((t,i)=>{ const l=document.createElement("label"); l.innerHTML=`<input type="checkbox" data-c="${i}"><span>${t}</span>`; c.appendChild(l); });
+  function upd(){
+    const n=c.querySelectorAll("input:checked").length, v=$("#verdict");
+    if(n===CHECKS.length){ v.className="verdict ok"; v.textContent="Strong plan. Bring it to your teacher for approval."; }
+    else { v.className="verdict"; v.textContent=n+" of "+CHECKS.length+" checked. Fix the unchecked ones before you ask for approval."; }
+  }
+  c.addEventListener("change",upd); upd();
+})();
+
+/* experiment builder */
+const BIV = [
+ {id:"jj",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Length of jumping jacks",A:"30 seconds of jumping jacks",B:"60 seconds of jumping jacks",
+  keep:["Same pace (count jacks per 10 seconds)","Same person doing the exercise","Same rest time before each trial","Same floor and shoes"],space:"Small space. A living room works. Jump softly if neighbors live below you.",mats:["Open floor space (about 6 feet by 6 feet)"]},
+ {id:"walkjog",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Walking vs jogging in place",A:"1 minute of walking in place",B:"1 minute of jogging in place",
+  keep:["Same timer length","Same person","Same rest time before each trial","Same surface"],space:"Tiny space. Works in any room.",mats:["A little floor space"]},
+ {id:"stairs",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Stairs vs flat walking",A:"1 minute of walking on flat ground (hallway or sidewalk)",B:"1 minute of walking up and down stairs",
+  keep:["Same walking speed","Same person","Same rest time","Handrail used each time"],space:"Needs a stairwell in your building or school. Get an adult's OK. Do not use subway stairs.",mats:["A stairwell"]},
+ {id:"jumprope",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Jump rope vs jumping jacks",A:"1 minute of jumping jacks",B:"1 minute of jumping rope",
+  keep:["Same pace as best you can","Same person","Same rest time","Same surface"],space:"Needs ceiling and floor space. A playground or gym works best.",mats:["Jump rope","Open floor space"]},
+ {id:"warmup",grp:"Get ready for exercise",type:"prep",name:"Warm-up vs no warm-up",A:"no warm-up",B:"1 minute of stretching and arm circles first",
+  keep:["Same warm-up every time","Same person","Same rest time between trials"],space:"Tiny space. Works in any room.",mats:["A little floor space"]},
+ {id:"music",grp:"Get ready for exercise",type:"music",name:"Fast music vs slow music",A:"slow music (about 70 beats per minute)",B:"fast music (about 140 beats per minute)",
+  keep:["Same volume","Same person","Music starts at the same moment","Same activity each time"],space:"Any room. Use a phone or speaker.",mats:["Phone or speaker","Two playlists you checked for tempo"]},
+ {id:"hydration",grp:"Get ready for exercise",type:"hydration",name:"Water before exercise vs no water",A:"no water in the 15 minutes before",B:"1 cup (8 oz) of water 10 minutes before",
+  keep:["Same amount of water","Same wait time","Same person","Same activity each time"],space:"Any room.",mats:["Cup and water","Measuring cup"]},
+ {id:"breathing",grp:"Calm down",type:"calm",name:"Slow breathing vs sitting quietly",A:"sitting quietly for 2 minutes",B:"slow deep breathing for 2 minutes (in for 4, out for 6)",
+  keep:["Same seat","Same room","Same time of day","Same length of time"],space:"Any quiet spot at home.",mats:["Chair","Timer"]},
+ {id:"meditation",grp:"Calm down",type:"calm",name:"Guided meditation vs sitting quietly",A:"sitting quietly for 3 minutes",B:"a guided meditation for 3 minutes",
+  keep:["Same seat","Same room","Same length","Same starting activity before each trial"],space:"Any quiet spot at home.",mats:["Chair","A 3 minute guided meditation recording","Headphones"]},
+ {id:"position",grp:"Calm down",type:"calm",name:"Lying down vs standing",A:"standing still for 2 minutes",B:"lying down for 2 minutes",
+  keep:["Same person","Same room","Same rest before each trial","Same length of time"],space:"Tiny space. Works in any room.",mats:["Floor mat or bed"]},
+ {id:"video",grp:"Calm down",type:"mood",name:"Calm vs exciting video clip",A:"a calm nature video (3 minutes)",B:"an exciting, school-appropriate video (3 minutes)",
+  keep:["Same screen and volume","Same seat","Same length","Clips approved by your teacher"],space:"Any spot with a screen.",mats:["Phone or tablet","Two approved clips of the same length"]}
+];
+const BDV = [
+ {id:"hr",name:"Heart rate (beats per minute)",what:"heart rate",measure:"Find your pulse on your wrist or neck. Count the beats for 15 seconds, then multiply by 4. Start counting within 5 seconds of finishing.",
+  keep:["Same pulse spot","Same person counting","Same counting method"],mats:["Timer or phone stopwatch"],baseline:true},
+ {id:"recov",name:"Recovery time (seconds)",what:"recovery time",measure:"Check your pulse every 15 seconds (count for 15 s, multiply by 4). Record the total seconds until you are within 10 beats of your starting heart rate.",
+  keep:["Same resting baseline","Same pulse spot","Same checking schedule"],mats:["Timer or phone stopwatch"],baseline:true},
+ {id:"reps",name:"Repetitions in 30 seconds",what:"number of squats in 30 seconds",measure:"Your partner counts full squats in 30 seconds. Only count squats that reach the same depth (thighs about parallel to the floor).",
+  keep:["Same squat depth","Same person counting","Same 30 second timer"],mats:["Timer or phone stopwatch","A partner to count"],baseline:false},
+ {id:"breaths",name:"Breaths per minute",what:"breaths per minute",measure:"Your partner watches your chest and counts breaths for 30 seconds, then multiplies by 2. Do not tell the person when counting starts so breathing stays natural.",
+  keep:["Same counter","Same body position while counting","Same counting window"],mats:["Timer or phone stopwatch","A partner to count"],baseline:true},
+ {id:"reaction",name:"Reaction time (ruler drop, cm)",what:"reaction time",measure:"Your partner holds a 30 cm ruler at the 30 cm end and drops it without warning. You catch it. Record the number where your thumb lands. A smaller number means a faster reaction.",
+  keep:["Same partner dropping","Same starting hand position","Same ruler"],mats:["30 cm ruler","A partner to drop it"],baseline:false},
+ {id:"rpe",name:"Effort rating (1 to 10)",what:"effort rating",measure:"Right after the activity, rate how hard it felt from 1 (very easy) to 10 (hardest you can imagine). Use the same scale every time and write it down before talking about it.",
+  keep:["Same scale every trial","Same person rating","Rate right away"],mats:["Printed 1 to 10 scale"],baseline:false},
+ {id:"wall",name:"Wall-sit hold time (seconds)",what:"wall-sit hold time",measure:"Back flat on a wall, knees bent at 90 degrees. Your partner times you until you must stop. Stop right away if it hurts.",
+  keep:["Same knee angle","Same wall","Same person timing","Same rest before each trial"],mats:["Wall","Timer or phone stopwatch","A partner to time"],baseline:false}
+];
+const BM = { // rating of each IV type with each DV: [rating, note]
+ exertion:{hr:["great","The classic. Exercise raises heart rate, and you only need your fingers and a timer."],
+  recov:["great","Great pair. A harder exercise should take longer to recover from."],
+  reps:["ok","This becomes a fatigue test. Do the exercise first, then count squats in 30 seconds. More tired muscles should mean fewer squats."],
+  breaths:["great","Breathing speeds up with effort and is easy to count."],
+  reaction:["ok","A fun twist: does being tired change how fast you react? Differences may be small, so use the same ruler dropper every time."],
+  rpe:["ok","This works, but it is opinion-based. It is stronger if your teacher sees a number you measured too, like heart rate."],
+  wall:["ok","This becomes a fatigue test. Do the exercise first, then see how long you can hold a wall sit."]},
+ prep:{hr:["ok","Warm up (or not), do the same standard 1 minute activity, then measure heart rate. Effects may be small. A small difference is still a real result."],
+  recov:["ok","Does warming up help your body recover faster after the same standard activity?"],
+  reps:["great","A strong pair. Warm up (or not), then count squats in 30 seconds."],
+  breaths:["ok","Works after the same standard activity. Differences may be small."],
+  reaction:["ok","Works, but expect small differences. Use the same partner to drop the ruler."],
+  rpe:["ok","Does a warm-up make the same activity feel easier? It is opinion-based, so keep the scale the same every time."],
+  wall:["great","A strong pair. Warm up (or not), then time a wall sit."]},
+ music:{hr:["ok","Do the same activity with different music, then measure heart rate. Keep the volume the same."],
+  recov:["ok","Same activity with different music, then track recovery with pulse checks."],
+  reps:["great","A classic. Count squats in 30 seconds while fast or slow music plays."],
+  breaths:["ok","Works after the same standard activity with different music."],
+  reaction:["ok","Works, but expect small differences. Use the same partner to drop the ruler."],
+  rpe:["ok","Does fast music make the same workout feel easier? It is opinion-based, so keep the scale the same."],
+  wall:["great","A strong pair. Hold a wall sit with fast or slow music playing."]},
+ hydration:{hr:["ok","Water may change heart rate only a little in a short test. Be ready to explain a result with no difference. That is still real data."],
+  recov:["ok","Does water help you recover? The difference may be small, which is still a valid result."],
+  reps:["ok","Works. The effect of water in a short test may be small, so be ready to explain a no-difference result."],
+  breaths:["ok","Works after the same standard activity. Differences may be small."],
+  reaction:["ok","Works, but expect small differences. Use the same partner to drop the ruler."],
+  rpe:["ok","Opinion-based, so keep the scale the same. Differences may be small."],
+  wall:["ok","Works. The effect may be small, so be ready to explain a no-difference result."]},
+ calm:{hr:["great","Heart rate before and after calming down is clear and easy to measure."],
+  recov:["no","Recovery time needs a raised heart rate to recover from, and calming down does not raise it. Try heart rate or breaths per minute instead."],
+  reps:["no","Counting squats measures exercise, not calming down. Try heart rate or breaths per minute instead."],
+  breaths:["great","Breathing slows down when you relax, and it is easy to count."],
+  reaction:["ok","Does being calm change how fast you react? Fun, but expect small differences."],
+  rpe:["no","An effort rating does not fit because there is no effort. Try heart rate instead."],
+  wall:["no","A wall sit tests muscle endurance, not calmness. Try heart rate or breaths per minute instead."]},
+ mood:{hr:["great","Does an exciting clip raise heart rate while you sit still? Easy and fun to test."],
+  recov:["no","Recovery time needs exercise first. Try heart rate or breaths per minute instead."],
+  reps:["no","Counting squats measures exercise, not reactions to a video. Try heart rate or breaths per minute instead."],
+  breaths:["great","Breathing may speed up with excitement. Easy to count."],
+  reaction:["ok","Does an exciting clip change reaction time? Expect small differences."],
+  rpe:["no","An effort rating does not fit a video. Try heart rate instead."],
+  wall:["no","A wall sit tests muscle endurance. Try heart rate or breaths per minute instead."]}
+};
+const cap = t => t.charAt(0).toUpperCase()+t.slice(1);
+const BASE_ACT = "1 minute of jumping jacks at the same pace every time (or walking in place if you have little space)";
+function fillSelects(){
+  const iv=$("#ivSel"), dv=$("#dvSel");
+  let h='<option value="">Choose what you will change</option>', g="";
+  BIV.forEach(x=>{ if(x.grp!==g){ if(g) h+="</optgroup>"; h+=`<optgroup label="${x.grp}">`; g=x.grp; } h+=`<option value="${x.id}">${x.name}</option>`; });
+  iv.innerHTML=h+"</optgroup>";
+  dv.innerHTML='<option value="">Choose what you will measure</option>'+BDV.map(x=>`<option value="${x.id}">${x.name}</option>`).join("");
+}
+function planText(iv,dv,rating){
+  const needBase = ["prep","music","hydration"].includes(iv.type) && ["hr","recov","breaths","reaction","rpe"].includes(dv.id);
+  const mats = [...new Set([...iv.mats,...dv.mats,"Data table (paper or Google Sheets)"])];
+  const keep = [...new Set([...iv.keep,...dv.keep])];
+  const steps=[];
+  if(dv.baseline && !["calm","mood"].includes(iv.type)) steps.push("Sit and rest for 2 minutes. Measure your starting "+dv.what+" (baseline).");
+  if(["calm","mood"].includes(iv.type)) steps.push("Sit or stand quietly for 2 minutes first. Measure your starting "+dv.what+" (baseline).");
+  steps.push("Flip a coin or alternate to decide which condition goes first, so order does not change the results.");
+  if(iv.type==="music" && needBase){
+    steps.push("Start the music: "+iv.A+" for Condition A, or "+iv.B+" for Condition B. Then do the same standard activity every time while it plays: "+BASE_ACT+".");
+  } else {
+    steps.push("Do the condition: "+cap(iv.A)+" for Condition A, or "+cap(iv.B)+" for Condition B.");
+    if(needBase) steps.push("Then do the same standard activity every time: "+BASE_ACT+".");
+  }
+  if(iv.type==="exertion" && ["reps","wall"].includes(dv.id)) steps.push("Right after the exercise, start the test below without resting.");
+  steps.push("Measure: "+dv.measure);
+  steps.push(["calm","mood"].includes(iv.type)?"Rest for at least 3 minutes before the next trial.":"Rest until your pulse is back near your starting number, at least 3 minutes, before the next trial.");
+  steps.push("Write the number in your data table right away. Repeat until you have 5 data points for each condition (10 total).");
+  const QW={jj:"the length of jumping jacks (30 seconds vs 60 seconds)",walkjog:"jogging instead of walking in place",stairs:"walking on stairs instead of flat ground",jumprope:"jumping rope instead of doing jumping jacks",warmup:"warming up first",music:"listening to fast music instead of slow music",hydration:"drinking water before exercise",breathing:"slow deep breathing",meditation:"guided meditation",position:"lying down instead of standing",video:"watching an exciting video instead of a calm one"};
+  const q = `Does ${QW[iv.id]} change a person's ${dv.what}?`;
+  const hyp = `If I compare ${iv.A} with ${iv.B}, then the ${dv.what} will be ______ (higher or lower) with the second condition than with the first, because ______ (use your source).`;
+  return {q,hyp,mats,keep,steps,space:iv.space,A:iv.A,B:iv.B};
+}
+function renderBuilder(){
+  const iv=BIV.find(x=>x.id===$("#ivSel").value), dv=BDV.find(x=>x.id===$("#dvSel").value), out=$("#bOut");
+  if(!iv||!dv){ out.innerHTML=""; return; }
+  const [rating,note]=BM[iv.type][dv.id];
+  const label={great:"Great experiment",ok:"Works with a tweak",no:"Not a real experiment yet"}[rating];
+  let h=`<div class="b-verdict ${rating}"><h4>${label}</h4><p>${note}</p>`;
+  if(rating==="no"){
+    const alts=BDV.filter(d=>BM[iv.type][d.id][0]!=="no");
+    h+=`<p style="margin-top:8px"><b>Try measuring one of these instead:</b></p><div class="b-alt">`+alts.map(d=>`<button class="btn small ghost" type="button" data-alt="${d.id}">${d.name}</button>`).join("")+`</div></div>`;
+    out.innerHTML=h; return;
+  }
+  h+="</div>";
+  const p=planText(iv,dv,rating);
+  h+=`<div class="b-plan">
+   <div class="b-box wide"><h5>Research question</h5><p>${p.q}</p></div>
+   <div class="b-box wide"><h5>Hypothesis starter</h5><p>${p.hyp}</p></div>
+   <div class="b-box"><h5>Conditions to compare</h5><ul><li><b>A:</b> ${cap(p.A)}</li><li><b>B:</b> ${cap(p.B)}</li></ul><p style="margin-top:6px"><b>Trials:</b> 5 of A and 5 of B, which makes your 10 data points. Switching back and forth keeps it fair.</p></div>
+   <div class="b-box"><h5>Materials</h5><ul>${p.mats.map(m=>"<li>"+m+"</li>").join("")}</ul><p style="margin-top:6px"><b>Space:</b> ${p.space}</p></div>
+   <div class="b-box wide"><h5>Steps for each trial</h5><ol>${p.steps.map(m=>"<li>"+m+"</li>").join("")}</ol></div>
+   <div class="b-box wide"><h5>Keep these the same (controls)</h5><ul>${p.keep.map(m=>"<li>"+m+"</li>").join("")}</ul></div>
+  </div>
+  <div class="btnrow" style="margin-top:12px"><button class="btn" id="bCopy" type="button">Copy this plan</button><span class="note" id="bMsg" role="status" style="align-self:center"></span></div>
+  <p class="note">This is a starting point. Your own idea and details go on the Methods Worksheet, and your teacher approves it before you collect data.</p>`;
+  out.innerHTML=h;
+  $("#bCopy").onclick=async()=>{
+    const t=["Research question: "+p.q,"Hypothesis starter: "+p.hyp,"IV: "+iv.name,"DV: "+dv.name,"Condition A: "+cap(p.A),"Condition B: "+cap(p.B),"Trials: 5 of A and 5 of B (10 data points)","","Materials:",...p.mats.map(x=>"- "+x),"","Steps:",...p.steps.map((x,i)=>(i+1)+". "+x),"","Controls:",...p.keep.map(x=>"- "+x)].join("\n");
+    try{ await navigator.clipboard.writeText(t); $("#bMsg").textContent="Copied."; }catch(e){ $("#bMsg").textContent="Copy did not work. Select the text and copy it."; }
+  };
+}
+fillSelects();
+$("#ivSel").addEventListener("change",renderBuilder);
+$("#dvSel").addEventListener("change",renderBuilder);
+$("#bOut").addEventListener("click",e=>{ const a=e.target.dataset&&e.target.dataset.alt; if(a){ $("#dvSel").value=a; renderBuilder(); } });
+$("#bRandom").addEventListener("click",()=>{
+  const pairs=[]; BIV.forEach(i=>BDV.forEach(d=>{ if(BM[i.type][d.id][0]==="great") pairs.push([i.id,d.id]); }));
+  const p=pairs[Math.floor(Math.random()*pairs.length)]; $("#ivSel").value=p[0]; $("#dvSel").value=p[1]; renderBuilder();
+});
+
+renderIdeas();
+</script>
+</body>
+</html>
