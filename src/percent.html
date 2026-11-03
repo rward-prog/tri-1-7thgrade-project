@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Percent Change | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<section><div class="wrap">
+  <h2>Percent change</h2>
+  <p class="lede"><b>Raw data</b> is the number you measured, like 120 bpm. <b>Percent change</b> tells you how much that number changed compared to where it started. For measurements like heart rate and running time, it is often a fairer way to compare your conditions.</p>
+
+  <div class="guard" style="background:var(--blue-soft);border-color:var(--blue)">
+    <h3>The formula</h3>
+    <p style="font-size:20px"><b>Percent Change = (After &minus; Before) &divide; Before &times; 100</b></p>
+  </div>
+
+  <details open><summary>Part 1. Why percent change can be better than raw data</summary><div class="dbody">
+    <p><b>People start in different places.</b> Your resting heart rate might be 60 bpm and your partner's might be 90 bpm. If you both rise by 30 bpm, the raw change looks the same, but your heart rate changed much more compared to where it started.</p>
+    <div class="pc-pair">
+      <div>
+        <h4>Raw change (bpm)</h4>
+        <div class="bars" role="img" aria-label="Bar chart: Maya raw change 30 bpm, Jordan raw change 30 bpm">
+          <div class="bar-row"><span class="bar-name">Maya</span><span class="bar-track"><span class="bar" style="width:50%"></span></span><span class="bar-val">+30</span></div>
+          <div class="bar-row"><span class="bar-name">Jordan</span><span class="bar-track"><span class="bar" style="width:50%"></span></span><span class="bar-val">+30</span></div>
+        </div>
+        <p class="note">Looks the same.</p>
+      </div>
+      <div>
+        <h4>Percent change</h4>
+        <div class="bars" role="img" aria-label="Bar chart: Maya percent change 50 percent, Jordan percent change 33.3 percent">
+          <div class="bar-row"><span class="bar-name">Maya</span><span class="bar-track"><span class="bar red" style="width:83.3%"></span></span><span class="bar-val">+50%</span></div>
+          <div class="bar-row"><span class="bar-name">Jordan</span><span class="bar-track"><span class="bar red" style="width:55.5%"></span></span><span class="bar-val">+33.3%</span></div>
+        </div>
+        <p class="note">Now you can see the real difference. (Made-up data.)</p>
+      </div>
+    </div>
+    <p><b>The same goes for running time.</b> Sam runs a set distance in 20.0 seconds and then 18.0 seconds, which is &minus;2.0 s. Alex runs it in 30.0 seconds and then 27.0 seconds, which is &minus;3.0 s. Alex's raw time dropped more, but both runners improved by the same percent: &minus;10%. A negative percent for time means <b>faster</b>.</p>
+    <p><b>Percent change lets you compare fairly</b> between partners, between days, and between people with different starting points.</p>
+    <div class="eg"><b>Ask yourself:</b> does every trial have a starting number (a baseline)? If yes, percent change is usually the fairer choice.</div>
+    <p><b>When raw data is fine:</b> if there is no starting number, like counting sit-ups in 30 seconds or words remembered, use the raw numbers. You can also use raw data if everyone truly starts from the same number, but that is rare for heart rate.</p>
+  </div></details>
+
+  <details open><summary>Part 2. How to find percent change</summary><div class="dbody">
+    <ol>
+      <li><b>Find the change.</b> After &minus; Before.</li>
+      <li><b>Divide by the Before number.</b> This compares the change to where you started.</li>
+      <li><b>Multiply by 100.</b> This turns it into a percent.</li>
+      <li><b>Keep the sign.</b> A positive number means it went up. A negative number means it went down.</li>
+    </ol>
+    <div class="pc-pair">
+      <div class="eg"><b>Heart rate: 60 to 90 bpm</b><br>1. 90 &minus; 60 = 30<br>2. 30 &divide; 60 = 0.5<br>3. 0.5 &times; 100 = <b>+50%</b></div>
+      <div class="eg"><b>Running time: 20.0 to 18.0 s</b><br>1. 18.0 &minus; 20.0 = &minus;2.0<br>2. &minus;2.0 &divide; 20.0 = &minus;0.10<br>3. &minus;0.10 &times; 100 = <b>&minus;10%</b></div>
+    </div>
+
+    <h4 style="margin-top:12px">Percent change calculator</h4>
+    <div class="pc-calc">
+      <div class="field"><label for="pc_b">Before</label><input id="pc_b" inputmode="decimal" placeholder="60"></div>
+      <div class="field"><label for="pc_a">After</label><input id="pc_a" inputmode="decimal" placeholder="90"></div>
+      <div class="pc-out" id="pcOut" aria-live="polite">Type a before and after number.</div>
+    </div>
+
+    <h4 style="margin-top:14px">Mistakes to avoid</h4>
+    <ul>
+      <li>Dividing by the <b>After</b> number. Always divide by <b>Before</b>.</li>
+      <li>Subtracting in the wrong order. It is <b>After &minus; Before</b>.</li>
+      <li>Forgetting &times; 100 on paper. (In Google Sheets the percent format does it for you, so do not multiply by 100 there.)</li>
+      <li>Averaging raw numbers from different people and then converting. Convert <b>each trial</b> first, then average the percent changes.</li>
+      <li>Forgetting to measure a baseline. You cannot find percent change without a Before number.</li>
+    </ul>
+  </div></details>
+
+  <details open><summary>Part 3. Use it in your experiment</summary><div class="dbody">
+    <ol>
+      <li><b>Measure a starting number (baseline) before every trial.</b> For heart rate, that is your resting heart rate. For running, do one normal run first. For reaction time, do a rested test first.</li>
+      <li><b>Measure your ending number</b> right after the trial.</li>
+      <li><b>Make a table with Before, After, and % Change columns.</b> Capitalize Important Words and put the units in the headers.</li>
+      <li><b>Calculate the percent change for each trial.</b></li>
+      <li><b>Average the percent changes</b> for each condition, and graph those averages.</li>
+      <li><b>Run your p-value on the percent changes</b>, not the raw numbers. The <a href="stats.html">P-value page</a> has an AI prompt that does this when you give it your starting numbers.</li>
+    </ol>
+    <div class="scrollx"><table class="gb good" aria-label="Example table layout with before, after, and percent change columns">
+      <tr><th>Trial</th><th>Before (bpm)</th><th>After (bpm)</th><th>% Change</th></tr>
+      <tr><td>1</td><td>62</td><td>96</td><td>+54.8%</td></tr>
+      <tr class="alt"><td>2</td><td>60</td><td>101</td><td>+68.3%</td></tr>
+      <tr><td>3</td><td>65</td><td>99</td><td>+52.3%</td></tr>
+      <tr class="alt"><td>4</td><td>61</td><td>104</td><td>+70.5%</td></tr>
+      <tr><td>5</td><td>63</td><td>98</td><td>+55.6%</td></tr>
+      <tr class="alt avg"><td>Average</td><td>62.2</td><td>99.6</td><td>+60.3%</td></tr>
+    </table></div>
+    <p class="note">Made-up data. Your graph would use the average % Change for each condition, with the vertical axis titled "Average Percent Change in Heart Rate (%)".</p>
+
+    <h4 style="margin-top:12px">In Google Sheets</h4>
+    <ol>
+      <li>Put Before in column B and After in column C.</li>
+      <li>In D2, type <code>=(C2-B2)/B2</code> and press Enter.</li>
+      <li>Click D2, then open <b>Format</b>, <b>Number</b>, <b>Percent</b>. Do not multiply by 100.</li>
+      <li>Drag the small square in the corner of D2 down to fill the other trials.</li>
+      <li>Average them with <code>=AVERAGE(D2:D6)</code>.</li>
+    </ol>
+    <p>More on tables and graphs is on the <a href="sheets.html">Sheets page</a>.</p>
+
+    <h4 style="margin-top:12px">Which measurements work well?</h4>
+    <ul>
+      <li><b>Use percent change:</b> heart rate, breaths per minute, running time, reaction time, and balance time (each with a baseline).</li>
+      <li><b>Usually raw data:</b> counts with no starting number, like sit-ups in 30 seconds, plank time, or words remembered. Ask your teacher if you want to compare them to a baseline.</li>
+    </ul>
+  </div></details>
+
+  <details open><summary>Part 4. Practice</summary><div class="dbody">
+    <p>Type your answer (round to one decimal place), then click Check.</p>
+    <div id="practice"></div>
+  </div></details>
+
+  <div class="pager" id="pager"></div>
+</div></section>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+function calcPc(){
+  const b=parseFloat($("#pc_b").value), a=parseFloat($("#pc_a").value), out=$("#pcOut");
+  if(isNaN(b)||isNaN(a)){ out.textContent="Type a before and after number."; return; }
+  if(b===0){ out.textContent="Before cannot be 0."; return; }
+  const pc=(a-b)/b*100, r=Math.round(pc*10)/10;
+  out.innerHTML=`(${a} &minus; ${b}) &divide; ${b} &times; 100 = <b>${r>0?"+":""}${r}%</b> ${r>0?"(it went up)":r<0?"(it went down)":"(no change)"}`;
+}
+$("#pc_b").addEventListener("input",calcPc); $("#pc_a").addEventListener("input",calcPc);
+
+const PRACTICE=[
+ {q:"Your resting heart rate is 70 bpm. After jumping jacks it is 105 bpm. What is the percent change?",ans:50,work:"(105 − 70) ÷ 70 = 0.5, and 0.5 × 100 = +50%."},
+ {q:"A runner's time goes from 24.0 seconds to 21.6 seconds. What is the percent change?",ans:-10,work:"(21.6 − 24.0) ÷ 24.0 = −0.1, and −0.1 × 100 = −10%. The negative means faster."},
+ {q:"Partner A goes from 80 to 100 bpm. Partner B goes from 50 to 70 bpm. What is Partner B's percent change?",ans:40,work:"(70 − 50) ÷ 50 = 0.4, and 0.4 × 100 = +40%. Partner A was +25%, so B's heart rate changed more, even though both rose 20 bpm."}
+];
+(function(){
+  const box=$("#practice");
+  PRACTICE.forEach((p,i)=>{
+    const d=document.createElement("div"); d.className="prac";
+    d.innerHTML=`<p><b>${i+1}.</b> ${p.q}</p><div class="prac-row"><input id="pa${i}" inputmode="decimal" aria-label="Answer ${i+1}" placeholder="Answer in %"><button class="btn small" type="button" data-i="${i}">Check</button></div><p class="prac-msg" id="pm${i}" role="status"></p>`;
+    box.appendChild(d);
+  });
+  box.addEventListener("click",e=>{
+    const i=e.target.dataset&&e.target.dataset.i; if(i===undefined) return;
+    const p=PRACTICE[+i], v=parseFloat($("#pa"+i).value.replace("%","")), m=$("#pm"+i);
+    if(isNaN(v)){ m.className="prac-msg"; m.textContent="Type a number first."; return; }
+    if(Math.abs(v-p.ans)<=0.15){ m.className="prac-msg ok"; m.textContent="Correct! "+p.work; }
+    else { m.className="prac-msg no"; m.textContent="Not quite. Check your order (After minus Before) and divide by Before. Try again, or see the steps in Part 2."; }
+  });
+})();
+</script>
+</body>
+</html>

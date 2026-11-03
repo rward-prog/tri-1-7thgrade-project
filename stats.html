@@ -319,6 +319,23 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 @media (max-width:640px){.pc-calc{grid-template-columns:1fr 1fr}.pc-calc .pc-out{grid-column:1/-1}}
 .pc-out{background:var(--blue-soft);border-radius:10px;padding:11px 14px;font-size:18px}
 
+/* percent change page */
+.bars{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.bar-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar-name{width:60px;font-weight:700;font-size:15px}
+.bar{display:inline-block;height:24px;border-radius:5px;background:var(--blue)}
+.bar.red{background:var(--pulse)}
+.bar-val{font-weight:800;font-size:16px}
+.prac{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.prac-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.prac-row input{font:inherit;font-size:17px;padding:8px 10px;border:2px solid var(--line);border-radius:8px;width:180px}
+.prac-msg{margin-top:8px;font-weight:600;font-size:16px}
+.prac-msg.ok{color:#12634C}.prac-msg.no{color:#B3202F}
+
+.bar-track{flex:1;min-width:0}
+.bar-track .bar{display:block}
+.bar-val{white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -328,45 +345,11 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 <section id="stats"><div class="wrap">
   <h2>Data analysis and the p-value</h2>
   <p class="lede">You will use AI as a data helper. Fill in your experiment on the left and copy the finished prompt. You still write the conclusion yourself, and you must be able to explain every number to the class.</p>
-  <details class="pcbox" open><summary>Use percent change, not just raw numbers</summary><div class="dbody">
-    <p><b>Raw data</b> is the actual number you measured, like 120 bpm. The problem is that people start in different places. If your resting heart rate is 60 bpm and your partner's is 90 bpm, a heart rate of 120 bpm means something different for each of you. <b>Percent change</b> shows how much a number changed compared to <b>its own starting number</b>, so everyone is compared fairly.</p>
-    <div class="eg"><b>Percent Change = (After &minus; Before) &divide; Before &times; 100</b></div>
-    <div class="pc-pair">
-      <div>
-        <h4>Heart rate (made-up data)</h4>
-        <div class="scrollx"><table class="rub">
-          <tr><th>Person</th><th>Before (bpm)</th><th>After (bpm)</th><th>Raw Change</th><th>Percent Change</th></tr>
-          <tr><td>Maya</td><td>60</td><td>90</td><td>+30 bpm</td><td><b>+50%</b></td></tr>
-          <tr><td>Jordan</td><td>90</td><td>120</td><td>+30 bpm</td><td><b>+33.3%</b></td></tr>
-        </table></div>
-        <p class="note">Both went up 30 bpm, but Maya's heart rate rose much more compared to where she started.</p>
-      </div>
-      <div>
-        <h4>Running time (made-up data)</h4>
-        <div class="scrollx"><table class="rub">
-          <tr><th>Runner</th><th>Before (s)</th><th>After (s)</th><th>Raw Change</th><th>Percent Change</th></tr>
-          <tr><td>Sam</td><td>20.0</td><td>18.0</td><td>&minus;2.0 s</td><td><b>&minus;10%</b></td></tr>
-          <tr><td>Alex</td><td>30.0</td><td>27.0</td><td>&minus;3.0 s</td><td><b>&minus;10%</b></td></tr>
-        </table></div>
-        <p class="note">Alex's raw time dropped more, but both runners improved by the same percent. A negative number for time means faster.</p>
-      </div>
-    </div>
-    <p><b>How to do it:</b></p>
-    <ol>
-      <li>Measure a <b>starting number (baseline)</b> before every trial. For heart rate, that is your resting heart rate. For running, do one normal run first.</li>
-      <li>Measure your <b>ending number</b> after the trial.</li>
-      <li>Calculate the percent change for <b>each trial</b>. In Google Sheets, type <code>=(C2-B2)/B2</code> and format the cell as a percent. (See <a href="sheets.html">Tables and graphs</a>.)</li>
-      <li>Average the percent changes for each condition, graph them, and run your p-value on the percent changes.</li>
-      <li>Keep your raw numbers in your table too: columns for <b>Before</b>, <b>After</b>, and <b>% Change</b>.</li>
-    </ol>
-    <p><b>Use percent change</b> for heart rate, breaths per minute, running time, and any measurement where each trial has a starting number. A positive percent means the number went up. A negative percent means it went down.</p>
-    <h4 style="margin-top:12px">Percent change calculator</h4>
-    <div class="pc-calc">
-      <div class="field"><label for="pc_b">Before</label><input id="pc_b" inputmode="decimal" placeholder="60"></div>
-      <div class="field"><label for="pc_a">After</label><input id="pc_a" inputmode="decimal" placeholder="90"></div>
-      <div class="pc-out" id="pcOut" aria-live="polite">Type a before and after number.</div>
-    </div>
-  </div></details>
+  <div class="guard" style="background:var(--blue-soft);border-color:var(--blue)">
+    <h3>Use percent change when you can</h3>
+    <p>Percent change compares each trial to its own starting number, which is often fairer than raw data for heart rate and running time. Learn why and how on the <a href="percent.html"><b>Percent change page</b></a>. If you have starting numbers, add them in the optional boxes below and the AI prompt will use them.</p>
+  </div>
+
 
   <div class="stats-grid">
     <div class="panel">
@@ -643,7 +626,7 @@ const ITEMS = [
  {d:"2026-11-10",t:"checkin",title:"Partner check-in #2 and slides ready",body:"Your Materials and Methods slides must be ready to present tomorrow, including your data table layout. Fill out the check-in form.",link:"self-check.html?r=mm",linkText:"Grade your slides first",link2:"sheets.html",linkText2:"Tables and graphs help",form:true,ci:true},
  {d:"2026-11-11",t:"present",title:"Materials and Methods presentations",body:"Up to 5 minutes: your experiment, hypotheses, methods, and data table layout. Both partners speak. Fill out a classmate feedback sheet for each team. After presentations, start your Introduction Packet.",link:"rubrics.html",linkText:"See the rubric",files:["intro","fbmm"]},
  {d:"2026-11-13",t:"due",title:"Introduction Packet due, plus check-in #3",pts:23,body:"Two APA-cited sources from Google Scholar, plus one source that supports your hypothesis. Fill out the check-in form. Start your graphs, run your data through the AI prompt, and start your final slides from the template.",files:["intro","finaldeck"],link:"scholar.html",linkText:"Google Scholar and APA help",form:true,ci:true},
- {d:"2026-11-16",t:"due",title:"Complete data table due (all 10 data points)",body:"Your finished data table with all 10 data points. Capitalized headers, units, alternating colors, outlined cells, and Before, After, and % Change columns if your measurement has a starting number.",link:"sheets.html",linkText:"Tables and graphs help",link2:"stats.html",linkText2:"Percent change help"},
+ {d:"2026-11-16",t:"due",title:"Complete data table due (all 10 data points)",body:"Your finished data table with all 10 data points. Capitalized headers, units, alternating colors, outlined cells, and Before, After, and % Change columns if your measurement has a starting number.",link:"sheets.html",linkText:"Tables and graphs help",link2:"percent.html",linkText2:"Percent change help"},
  {d:"2026-11-16",t:"due",title:"Graphs, p-value, and Conclusion Packet due",pts:18,body:"Finished graph(s) with units and Capitalized titles, percent change for each trial, p-value analysis, and all five conclusion parts, including errors, improvements, and future expansion.",files:["conclusion"],link:"sheets.html",linkText:"Tables and graphs help",link2:"stats.html",linkText2:"P-value help"},
  {d:"2026-11-16",t:"due",title:"Final slides due and practice day",body:"Submit your finished presentation by the end of the day. Practice out loud with your partner. Both of you must speak. Your presentation is 8 minutes or less.",files:["finaldeck"],link:"self-check.html?r=final",linkText:"Grade yourself first"},
  {d:"2026-11-17",t:"present",title:"Final presentations, day 1, plus check-in #4",body:"Present your experiment from start to finish in 8 minutes or less. Be ready for questions from the audience. Fill out a classmate feedback sheet for each team, and the last check-in form today.",files:["fbfinal"],form:true,ci:true},
@@ -737,7 +720,7 @@ function renderUpNext(){
 
 
 /* ---------- navigation and pager ---------- */
-const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["reaction.html","Reaction"],["howto.html","How to"],["scholar.html","Sources"],["stats.html","P-value"],["sheets.html","Sheets"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Self-check"]];
+const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["reaction.html","Reaction"],["howto.html","How to"],["scholar.html","Sources"],["percent.html","% Change"],["stats.html","P-value"],["sheets.html","Sheets"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Self-check"]];
 (function(){
   const cur=(location.pathname.split("/").pop()||"index.html");
   const nav=$("#navlinks");
@@ -793,14 +776,6 @@ ${B}
 Please do the following:
 ${tasks.map((t,i)=>(i+1)+". "+t).join("\n")}`;
 }
-function calcPc(){
-  const b=parseFloat($("#pc_b").value), a=parseFloat($("#pc_a").value), out=$("#pcOut");
-  if(isNaN(b)||isNaN(a)){ out.textContent="Type a before and after number."; return; }
-  if(b===0){ out.textContent="Before cannot be 0."; return; }
-  const pc=(a-b)/b*100, r=Math.round(pc*10)/10;
-  out.innerHTML=`(${a} &minus; ${b}) &divide; ${b} &times; 100 = <b>${r>0?"+":""}${r}%</b> ${r>0?"(it went up)":r<0?"(it went down)":"(no change)"}`;
-}
-$("#pc_b").addEventListener("input",calcPc); $("#pc_a").addEventListener("input",calcPc);
 function updPrompt(){ $("#promptOut").textContent=buildPrompt(); }
 pf.forEach(id=>$("#"+id).addEventListener("input",updPrompt)); updPrompt();
 $("#copyPrompt").addEventListener("click",async()=>{

@@ -308,3 +308,20 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 .pc-calc{display:grid;grid-template-columns:140px 140px 1fr;gap:12px;align-items:end;margin-top:6px}
 @media (max-width:640px){.pc-calc{grid-template-columns:1fr 1fr}.pc-calc .pc-out{grid-column:1/-1}}
 .pc-out{background:var(--blue-soft);border-radius:10px;padding:11px 14px;font-size:18px}
+
+/* percent change page */
+.bars{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.bar-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar-name{width:60px;font-weight:700;font-size:15px}
+.bar{display:inline-block;height:24px;border-radius:5px;background:var(--blue)}
+.bar.red{background:var(--pulse)}
+.bar-val{font-weight:800;font-size:16px}
+.prac{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.prac-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.prac-row input{font:inherit;font-size:17px;padding:8px 10px;border:2px solid var(--line);border-radius:8px;width:180px}
+.prac-msg{margin-top:8px;font-weight:600;font-size:16px}
+.prac-msg.ok{color:#12634C}.prac-msg.no{color:#B3202F}
+
+.bar-track{flex:1;min-width:0}
+.bar-track .bar{display:block}
+.bar-val{white-space:nowrap}

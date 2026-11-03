@@ -319,6 +319,23 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 @media (max-width:640px){.pc-calc{grid-template-columns:1fr 1fr}.pc-calc .pc-out{grid-column:1/-1}}
 .pc-out{background:var(--blue-soft);border-radius:10px;padding:11px 14px;font-size:18px}
 
+/* percent change page */
+.bars{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.bar-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar-name{width:60px;font-weight:700;font-size:15px}
+.bar{display:inline-block;height:24px;border-radius:5px;background:var(--blue)}
+.bar.red{background:var(--pulse)}
+.bar-val{font-weight:800;font-size:16px}
+.prac{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.prac-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.prac-row input{font:inherit;font-size:17px;padding:8px 10px;border:2px solid var(--line);border-radius:8px;width:180px}
+.prac-msg{margin-top:8px;font-weight:600;font-size:16px}
+.prac-msg.ok{color:#12634C}.prac-msg.no{color:#B3202F}
+
+.bar-track{flex:1;min-width:0}
+.bar-track .bar{display:block}
+.bar-val{white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -370,6 +387,7 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
     <a class="tile" href="reaction.html"><h3>Reaction time test</h3><p>Measure your reaction time in milliseconds for your experiment.</p></a>
     <a class="tile" href="howto.html"><h3>How to do it</h3><p>Step-by-step help for planning, collecting data, analyzing, and presenting.</p></a>
     <a class="tile" href="scholar.html"><h3>Sources and APA</h3><p>How to use Google Scholar, check a source, and write an APA citation.</p></a>
+    <a class="tile" href="percent.html"><h3>Percent change</h3><p>Why percent change can be fairer than raw data, how to find it, and practice problems.</p></a>
     <a class="tile" href="stats.html"><h3>Data and p-value</h3><p>Build the AI prompt that analyzes your data and explains your p-value.</p></a>
     <a class="tile" href="sheets.html"><h3>Tables and graphs</h3><p>How to make a clean data table and the right graph in Google Sheets, with checklists.</p></a>
     <a class="tile" href="downloads.html"><h3>Packets and templates</h3><p>Worksheets, packets, and the slide template.</p></a>
@@ -619,7 +637,7 @@ const ITEMS = [
  {d:"2026-11-10",t:"checkin",title:"Partner check-in #2 and slides ready",body:"Your Materials and Methods slides must be ready to present tomorrow, including your data table layout. Fill out the check-in form.",link:"self-check.html?r=mm",linkText:"Grade your slides first",link2:"sheets.html",linkText2:"Tables and graphs help",form:true,ci:true},
  {d:"2026-11-11",t:"present",title:"Materials and Methods presentations",body:"Up to 5 minutes: your experiment, hypotheses, methods, and data table layout. Both partners speak. Fill out a classmate feedback sheet for each team. After presentations, start your Introduction Packet.",link:"rubrics.html",linkText:"See the rubric",files:["intro","fbmm"]},
  {d:"2026-11-13",t:"due",title:"Introduction Packet due, plus check-in #3",pts:23,body:"Two APA-cited sources from Google Scholar, plus one source that supports your hypothesis. Fill out the check-in form. Start your graphs, run your data through the AI prompt, and start your final slides from the template.",files:["intro","finaldeck"],link:"scholar.html",linkText:"Google Scholar and APA help",form:true,ci:true},
- {d:"2026-11-16",t:"due",title:"Complete data table due (all 10 data points)",body:"Your finished data table with all 10 data points. Capitalized headers, units, alternating colors, outlined cells, and Before, After, and % Change columns if your measurement has a starting number.",link:"sheets.html",linkText:"Tables and graphs help",link2:"stats.html",linkText2:"Percent change help"},
+ {d:"2026-11-16",t:"due",title:"Complete data table due (all 10 data points)",body:"Your finished data table with all 10 data points. Capitalized headers, units, alternating colors, outlined cells, and Before, After, and % Change columns if your measurement has a starting number.",link:"sheets.html",linkText:"Tables and graphs help",link2:"percent.html",linkText2:"Percent change help"},
  {d:"2026-11-16",t:"due",title:"Graphs, p-value, and Conclusion Packet due",pts:18,body:"Finished graph(s) with units and Capitalized titles, percent change for each trial, p-value analysis, and all five conclusion parts, including errors, improvements, and future expansion.",files:["conclusion"],link:"sheets.html",linkText:"Tables and graphs help",link2:"stats.html",linkText2:"P-value help"},
  {d:"2026-11-16",t:"due",title:"Final slides due and practice day",body:"Submit your finished presentation by the end of the day. Practice out loud with your partner. Both of you must speak. Your presentation is 8 minutes or less.",files:["finaldeck"],link:"self-check.html?r=final",linkText:"Grade yourself first"},
  {d:"2026-11-17",t:"present",title:"Final presentations, day 1, plus check-in #4",body:"Present your experiment from start to finish in 8 minutes or less. Be ready for questions from the audience. Fill out a classmate feedback sheet for each team, and the last check-in form today.",files:["fbfinal"],form:true,ci:true},
@@ -713,7 +731,7 @@ function renderUpNext(){
 
 
 /* ---------- navigation and pager ---------- */
-const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["reaction.html","Reaction"],["howto.html","How to"],["scholar.html","Sources"],["stats.html","P-value"],["sheets.html","Sheets"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Self-check"]];
+const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["reaction.html","Reaction"],["howto.html","How to"],["scholar.html","Sources"],["percent.html","% Change"],["stats.html","P-value"],["sheets.html","Sheets"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Self-check"]];
 (function(){
   const cur=(location.pathname.split("/").pop()||"index.html");
   const nav=$("#navlinks");

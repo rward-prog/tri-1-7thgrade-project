@@ -1,7 +1,7 @@
 # Exercise Science Project site (7th grade)
 
 Student-facing project site: schedule with countdowns, experiment builder, reaction time test, Google Scholar and APA help,
-Tables and graphs tutorial, percent change and p-value help, rubrics, self-check, downloads, and the partner check-in form link.
+percent change, p-value help, Tables and graphs tutorial, rubrics, self-check, downloads, and the partner check-in form link.
 
 ## How it is organized
 - The `.html` files in this folder are the finished pages that Vercel serves. Each one is self-contained.
