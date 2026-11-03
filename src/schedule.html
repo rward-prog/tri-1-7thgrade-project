@@ -48,6 +48,7 @@ function renderTimeline(filter){
     let btns="";
     (it.files||[]).forEach(f=>{const x=FILES.find(z=>z.id===f); if(x) btns+=`<a class="btn small ghost" href="${x.href}" download>Download ${x.name}</a>`;});
     if(it.link) btns+=`<a class="btn small ghost" href="${it.link}">${it.linkText}</a>`;
+    if(it.link2) btns+=`<a class="btn small ghost" href="${it.link2}">${it.linkText2}</a>`;
     if(it.form) btns+=`<a class="btn small ghost" href="checkin.html">Check-in form</a>`;
     const pts = it.pts?`<span class="pts">${it.pts} points</span>`:"";
     li.innerHTML=`<div class="date"><small>${fmt(d,{weekday:"short"})}</small><span>${fmt(d,{month:"short",day:"numeric"})}</span></div>

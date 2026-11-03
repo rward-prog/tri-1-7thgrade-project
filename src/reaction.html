@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reaction Time Test | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<section><div class="wrap">
+  <h2>Reaction time test</h2>
+  <p class="lede">Click as fast as you can when the box turns green. The test shows your time in milliseconds (ms). Use this to measure reaction time for your experiment.</p>
+
+  <div class="guard" style="background:var(--sun-soft);border-color:var(--sun)">
+    <h3>Keep it fair: same every trial</h3>
+    <ul>
+      <li>Use the <b>same device</b>, the <b>same hand</b>, and the <b>same room</b> every time. Touch screens usually give faster times than a mouse, so do not switch.</li>
+      <li>Do 1 practice round first. It does not count.</li>
+      <li>Do <b>5 real tries</b>. The <b>average</b> is one data point for your experiment.</li>
+      <li>If you click too early, that try does not count. Wait for green.</li>
+    </ul>
+  </div>
+
+  <button class="rx-area rx-idle" id="rxArea" type="button" aria-describedby="rxStatus">
+    <span class="rx-big" id="rxBig">Click to start</span>
+    <span class="rx-sub" id="rxSub">Practice round first. Then 5 real tries.</span>
+  </button>
+  <p class="note" id="rxStatus" role="status" aria-live="polite" style="margin-top:8px"></p>
+
+  <div class="b-plan" style="margin-top:16px">
+    <div class="b-box">
+      <h5>Your tries</h5>
+      <table class="rx-table" aria-label="Your reaction times"><thead><tr><th>Try</th><th>Time (ms)</th></tr></thead><tbody id="rxRows"></tbody></table>
+    </div>
+    <div class="b-box">
+      <h5>Your average</h5>
+      <div class="rx-avg" id="rxAvg">--</div>
+      <p class="note" id="rxHelp">Complete 5 tries to see your average.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn" id="rxCopy" type="button" disabled>Copy my results</button>
+        <button class="btn ghost" id="rxReset" type="button">Start over</button>
+      </div>
+      <p class="note" id="rxMsg" role="status"></p>
+    </div>
+  </div>
+  <p class="note">This page runs only in your browser. Nothing is saved or sent anywhere. Differences between screens and devices are why you must use the same one every time.</p>
+
+  <div class="pager" id="pager"></div>
+</div></section>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+(function(){
+  const area=$("#rxArea"), big=$("#rxBig"), sub=$("#rxSub"), status=$("#rxStatus");
+  const TRIES=5;
+  let state="idle", timer=null, t0=0, practice=true, times=[];
+  function setState(s,cls,b,sb){ state=s; area.className="rx-area "+cls; big.textContent=b; sub.textContent=sb; }
+  function render(){
+    $("#rxRows").innerHTML=times.map((t,i)=>`<tr><td>${i+1}</td><td>${t}</td></tr>`).join("")||`<tr><td colspan="2" class="note">No tries yet.</td></tr>`;
+    if(times.length===TRIES){
+      const avg=Math.round(times.reduce((a,b)=>a+b,0)/TRIES);
+      $("#rxAvg").textContent=avg+" ms"; $("#rxHelp").textContent="This average is one data point. Write it in your data table."; $("#rxCopy").disabled=false;
+    } else { $("#rxAvg").textContent="--"; $("#rxHelp").textContent="Complete "+TRIES+" tries to see your average. "+times.length+" done."; $("#rxCopy").disabled=true; }
+  }
+  function idle(){
+    if(times.length===TRIES) setState("finished","rx-done","Done!","Your average is on the right. Click Start over to test again.");
+    else if(practice) setState("idle","rx-idle","Click to start","Practice round first. It does not count.");
+    else setState("idle","rx-idle","Click to start","Try "+(times.length+1)+" of "+TRIES+".");
+  }
+  function begin(){
+    setState("wait","rx-wait","Wait for green...","Do not click yet.");
+    status.textContent="Wait for green.";
+    timer=setTimeout(()=>{
+      setState("go","rx-go","CLICK NOW!","Click as fast as you can.");
+      status.textContent="Green! Click now.";
+      t0=performance.now();
+    }, 1500+Math.random()*3000);
+  }
+  function press(){
+    const now=performance.now();
+    if(state==="idle"||state==="early"||state==="result"){ begin(); return; }
+    if(state==="wait"){ clearTimeout(timer); setState("early","rx-early","Too soon!","That try did not count. Click to try again."); status.textContent="Too soon. That try did not count."; return; }
+    if(state==="go"){
+      const ms=Math.round(now-t0);
+      if(practice){ practice=false; setState("result","rx-idle",ms+" ms","Practice done. That one does not count. Click for try 1 of "+TRIES+"."); status.textContent="Practice: "+ms+" milliseconds."; return; }
+      times.push(ms); render();
+      status.textContent="Try "+times.length+": "+ms+" milliseconds.";
+      if(times.length===TRIES){ setState("finished","rx-done","Done! Average "+Math.round(times.reduce((a,b)=>a+b,0)/TRIES)+" ms","Click Start over to test again."); }
+      else setState("result","rx-idle",ms+" ms","Click for try "+(times.length+1)+" of "+TRIES+".");
+      return;
+    }
+  }
+  area.addEventListener("pointerdown",function(e){ e.preventDefault(); if(state==="finished") return; press(); });
+  area.addEventListener("keydown",function(e){ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); if(state==="finished") return; press(); } });
+  $("#rxReset").onclick=function(){ clearTimeout(timer); times=[]; practice=true; render(); idle(); status.textContent="Reset."; $("#rxMsg").textContent=""; };
+  $("#rxCopy").onclick=async function(){
+    const avg=Math.round(times.reduce((a,b)=>a+b,0)/TRIES);
+    const text="Reaction times (ms): "+times.join(", ")+"\nAverage: "+avg+" ms";
+    try{ await navigator.clipboard.writeText(text); $("#rxMsg").textContent="Copied."; }catch(e){ $("#rxMsg").textContent="Copy did not work. Write the average down."; }
+  };
+  render(); idle();
+})();
+</script>
+</body>
+</html>

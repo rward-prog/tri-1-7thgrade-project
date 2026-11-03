@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tables and Graphs in Sheets | Exercise Science Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<nav aria-label="Pages"><div class="wrap" id="navlinks"></div></nav>
+<main>
+<section><div class="wrap">
+  <h2>Tables and graphs in Google Sheets</h2>
+  <p class="lede">A clean table and the right graph make your data easy to trust. Follow these steps in Google Sheets, then use the checklists before you put anything on a slide. If a menu looks a little different on your screen, look for the same words.</p>
+
+  <div class="guard" style="background:var(--sun-soft);border-color:var(--sun)">
+    <h3>Three rules for every table and graph</h3>
+    <ul>
+      <li><b>UNITS:</b> Every measurement needs its unit, like (bpm), (Seconds), or (ms). Put units in the column headers and the axis titles.</li>
+      <li><b>Capitalize Important Words:</b> Capitalize all the important words in titles, headers, and axis titles. Keep small words like "of", "and", and "the" lowercase unless they come first.</li>
+      <li><b>Right graph for the data:</b> Check that your graph type fits your data (see Part 2).</li>
+    </ul>
+  </div>
+
+  <details open><summary>Part 1. Build your data table</summary><div class="dbody">
+    <ol>
+      <li><b>Open a new sheet.</b> In Google Drive, click New, then Google Sheets.</li>
+      <li><b>Type your headers in row 1.</b> Capitalize all important words and put the unit in parentheses.
+        <div class="eg">Trial &nbsp;|&nbsp; Condition A: 30 Seconds of Jumping Jacks (bpm) &nbsp;|&nbsp; Condition B: 60 Seconds of Jumping Jacks (bpm)</div></li>
+      <li><b>Type your data underneath.</b> One number per cell. Type only the number, not the unit. The unit is already in the header.</li>
+      <li><b>Make the headers stand out.</b> Click the row 1 number on the left to select the row. Click Bold (B) in the toolbar, then the center align button.</li>
+      <li><b>Add alternating colors.</b> Select your whole table (click the first cell, hold Shift, click the last cell). Open the <b>Format</b> menu, then <b>Alternating colors</b>. Check "Header" and pick a color style. Click Done.</li>
+      <li><b>Outline the cells.</b> With the table still selected, click the <b>Borders</b> button in the toolbar (it looks like a small grid). Choose <b>All borders</b>.</li>
+      <li><b>Add the averages.</b> In the row under your data, type "Average" in the first column. In the next cell type <code>=AVERAGE(B2:B6)</code> and press Enter. Change B2:B6 to match your own cells.</li>
+      <li><b>Add percent change</b> (for heart rate, running time, and other measurements with a starting number). Make a column for Before and a column for After. In a new column, type <code>=(C2-B2)/B2</code> (After minus Before, divided by Before) and press Enter. Then open <b>Format</b>, <b>Number</b>, <b>Percent</b>. Drag the corner of the cell down to fill the rest of the rows. Do not multiply by 100, because the percent format does that. Explanation on the <a href="stats.html">P-value page</a>.</li>
+      <li><b>Tidy up.</b> Center the numbers. Use the "decrease decimal places" button to round your averages. Double-click the line between two column letters to fit the column to the words.</li>
+    </ol>
+
+    <h3 style="font-size:19px;margin:14px 0 6px">What good and bad tables look like</h3>
+    <div class="gbpair">
+      <div>
+        <p class="gbtag good">Good table</p>
+        <table class="gb good" aria-label="Example of a good data table">
+          <tr><th>Trial</th><th>Condition A: Slow Music (bpm)</th><th>Condition B: Fast Music (bpm)</th></tr>
+          <tr><td>1</td><td>96</td><td>112</td></tr>
+          <tr class="alt"><td>2</td><td>99</td><td>118</td></tr>
+          <tr><td>3</td><td>94</td><td>115</td></tr>
+          <tr class="alt"><td>4</td><td>101</td><td>120</td></tr>
+          <tr><td>5</td><td>98</td><td>116</td></tr>
+          <tr class="alt avg"><td>Average</td><td>97.6</td><td>116.2</td></tr>
+        </table>
+        <p class="note">Capitalized headers, units in the headers, alternating colors, every cell outlined.</p>
+      </div>
+      <div>
+        <p class="gbtag bad">Needs fixing</p>
+        <table class="gb bad" aria-label="Example of a bad data table">
+          <tr><td>trial</td><td>slow music</td><td>fast music</td></tr>
+          <tr><td>1</td><td>96 bpm</td><td>112 bpm</td></tr>
+          <tr><td>2</td><td>99 bpm</td><td>118 bpm</td></tr>
+          <tr><td>3</td><td>94 bpm</td><td>115</td></tr>
+        </table>
+        <p class="note">Lowercase headers, no units in the headers, units typed in some cells but not others, no colors, no outlines, missing data.</p>
+        <p class="note">(This example data is made up.)</p>
+      </div>
+    </div>
+  </div></details>
+
+  <details><summary>Part 2. Pick the right graph</summary><div class="dbody">
+    <p>Ask yourself: <b>what is on the bottom (x-axis) of my graph?</b></p>
+    <div class="scrollx"><table class="rub">
+      <tr><th>If the bottom shows...</th><th>Use this graph</th><th>Example</th></tr>
+      <tr><td>Separate groups or conditions</td><td><b>Column chart</b> (bar graph)</td><td>Average heart rate for Slow Music vs Fast Music</td></tr>
+      <tr><td>Time passing</td><td><b>Line chart</b></td><td>Heart rate every 15 seconds after exercise</td></tr>
+      <tr><td>A number you changed on purpose</td><td><b>Scatter chart</b></td><td>Seconds of jumping jacks (20, 40, 60, 80) vs heart rate</td></tr>
+      <tr><td>Parts of a whole</td><td>Pie chart (you will not need this one)</td><td>Not for this experiment</td></tr>
+    </table></div>
+    <p class="note">Most students comparing Condition A to Condition B should use a <b>column chart of the averages</b>. Do not use a line chart to connect two separate groups.</p>
+  </div></details>
+
+  <details><summary>Part 3. Make your graph</summary><div class="dbody">
+    <ol>
+      <li><b>Make a small summary table.</b> One column for your conditions and one for the averages, with the same Capitalized headers and units.</li>
+      <li><b>Select it, then insert the chart.</b> Open <b>Insert</b>, then <b>Chart</b>. The Chart editor opens on the right.</li>
+      <li><b>Check the chart type.</b> On the <b>Setup</b> tab, open the Chart type dropdown and choose the type from Part 2 (usually Column chart).</li>
+      <li><b>Add titles.</b> Click the <b>Customize</b> tab, then <b>Chart and axis titles</b>. Use the dropdown to switch between titles, and type each one in Title Case:
+        <ul>
+          <li>Chart title: Average Heart Rate for Slow and Fast Music</li>
+          <li>Horizontal axis title: Type of Music</li>
+          <li>Vertical axis title: Average Heart Rate (bpm)</li>
+        </ul></li>
+      <li><b>Start the bars at zero.</b> In Customize, open <b>Vertical axis</b> and set the Min value to 0, so the bars do not exaggerate small differences.</li>
+      <li><b>Show the numbers.</b> In Customize, open <b>Series</b> and check <b>Data labels</b> so each bar shows its value.</li>
+      <li><b>Remove a legend you do not need.</b> If you only have one data series, open <b>Legend</b> in Customize and set the position to None.</li>
+      <li><b>Make the text big.</b> Use the size options in each section so your titles and numbers can be read from the back of the room.</li>
+      <li><b>Put it on your slide.</b> Click the chart, click the three dots in its corner, and choose <b>Copy chart</b>. In Google Slides, paste it and pick <b>Link to spreadsheet</b> or <b>Paste unlinked</b>. (You can also download it as a PNG from the same menu.)</li>
+    </ol>
+
+    <h3 style="font-size:19px;margin:14px 0 6px">What a good graph looks like</h3>
+    <figure class="gchart">
+      <svg viewBox="0 0 640 380" role="img" aria-label="Example column chart titled Average Heart Rate for Slow and Fast Music with labeled axes and units">
+        <text x="320" y="30" text-anchor="middle" font-size="22" font-weight="800" fill="#13203B">Average Heart Rate for Slow and Fast Music</text>
+        <line x1="90" y1="60" x2="90" y2="300" stroke="#58637D" stroke-width="2"/>
+        <line x1="90" y1="300" x2="600" y2="300" stroke="#58637D" stroke-width="2"/>
+        <g font-size="14" fill="#58637D" text-anchor="end">
+          <text x="80" y="305">0</text><text x="80" y="245">40</text><text x="80" y="185">80</text><text x="80" y="125">120</text><text x="80" y="65">160</text></g>
+        <rect x="170" y="153.6" width="130" height="146.4" fill="#2358D8"/>
+        <rect x="390" y="125.7" width="130" height="174.3" fill="#E5384A"/>
+        <text x="235" y="144" text-anchor="middle" font-size="18" font-weight="700" fill="#13203B">97.6</text>
+        <text x="455" y="116" text-anchor="middle" font-size="18" font-weight="700" fill="#13203B">116.2</text>
+        <text x="235" y="326" text-anchor="middle" font-size="16" fill="#13203B">Slow Music</text>
+        <text x="455" y="326" text-anchor="middle" font-size="16" fill="#13203B">Fast Music</text>
+        <text x="345" y="360" text-anchor="middle" font-size="16" font-weight="700" fill="#13203B">Type of Music</text>
+        <text transform="translate(26 180) rotate(-90)" text-anchor="middle" font-size="16" font-weight="700" fill="#13203B">Average Heart Rate (bpm)</text>
+      </svg>
+      <figcaption class="note">Title in Title Case. Both axis titles in Title Case. Units in the vertical axis title. Bars start at 0 and show their values. (Made-up data.)</figcaption>
+    </figure>
+  </div></details>
+
+  <details open><summary>Part 4. Checklists</summary><div class="dbody">
+    <div class="chk-grid">
+      <div class="checker" style="margin:0;padding:14px">
+        <h3 style="font-size:20px">Table checklist</h3>
+        <div id="tblCheck"></div>
+        <div class="verdict" id="tblVerdict"></div>
+      </div>
+      <div class="checker" style="margin:0;padding:14px">
+        <h3 style="font-size:20px">Graph checklist</h3>
+        <div id="grfCheck"></div>
+        <div class="verdict" id="grfVerdict"></div>
+      </div>
+    </div>
+  </div></details>
+
+  <div class="pager" id="pager"></div>
+</div></section>
+</main>
+<footer class="wrap" style="margin-top:56px">Mr. Ward's 7th Grade Science. Exercise Science Project, trimester 1.</footer>
+
+<script src="rubric-data.js"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+const TBL=[
+ "Every header has Capitalized Important Words.",
+ "Every header has its unit in parentheses, like (bpm).",
+ "Cells have numbers only, with no units typed in them.",
+ "All 10 data points are there, and there is an Average row.",
+ "If I have a starting number, I have Before, After, and % Change columns.",
+ "The header row is bold, and the rows use alternating colors.",
+ "All the cells are outlined with borders."
+];
+const GRF=[
+ "The graph type fits my data (columns for groups, line for time, scatter for numbers).",
+ "The chart title uses Capitalized Important Words.",
+ "Both axis titles use Capitalized Important Words.",
+ "The vertical axis title has the unit, like (bpm).",
+ "The bars start at 0 and show their values.",
+ "The text is big enough to read from the back of the room.",
+ "The graph matches my data table exactly."
+];
+function checklist(listId,verdictId,items){
+  const c=$("#"+listId); items.forEach(t=>{ const l=document.createElement("label"); l.innerHTML=`<input type="checkbox"><span>${t}</span>`; c.appendChild(l); });
+  function upd(){ const n=c.querySelectorAll("input:checked").length, v=$("#"+verdictId);
+    if(n===items.length){ v.className="verdict ok"; v.textContent="Ready for your slide."; }
+    else { v.className="verdict"; v.textContent=n+" of "+items.length+" checked. Fix the rest first."; } }
+  c.addEventListener("change",upd); upd();
+}
+checklist("tblCheck","tblVerdict",TBL); checklist("grfCheck","grfVerdict",GRF);
+</script>
+</body>
+</html>

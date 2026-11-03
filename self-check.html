@@ -166,17 +166,22 @@ mm: {
         1:"Unclear, untestable, or well below grade level.",
         0:"No research question presented." }},
       { id:"1B", name:"Hypothesis", max:3, levels:{
-        3:"In proper If, then format and logically connects to the research question.",
+        3:"In proper If, then, because format and logically connects to the research question.",
         2:"Present and mostly correct, but format or the connection to the question is weak.",
-        1:"Missing, not in If/Then format, or does not relate to the experiment.",
+        1:"Missing, not in If, then format, or does not relate to the experiment.",
         0:"No hypothesis presented." }},
-      { id:"1C", name:"Variables (IV, DV, controls)", max:3, levels:{
+      { id:"1C", name:"Null hypothesis", max:3, levels:{
+        3:"Correctly states that there will be no difference between the conditions, and matches the dependent variable.",
+        2:"Present, but unclear or not clearly a \"no difference\" statement.",
+        1:"Missing a key part, or confused with the hypothesis.",
+        0:"No null hypothesis presented." }},
+      { id:"1D", name:"Variables (IV, DV, controls)", max:3, levels:{
         3:"Correctly identifies IV, DV, and at least 3 important controls with clear explanations.",
         2:"Identifies IV, DV, and some controls, but explanations are incomplete or partly incorrect.",
         1:"Variables missing or wrong, or fewer than 3 controls listed.",
         0:"No variables identified." }}
     ]},
-    { name: "Procedure and materials", items: [
+    { name: "Procedure, materials, and data table", items: [
       { id:"2A", name:"Method / procedure", max:3, levels:{
         3:"Detailed, step-by-step procedure another group could replicate; the bulk of the presentation.",
         2:"Present but lacks some detail or steps needed to replicate.",
@@ -191,39 +196,37 @@ mm: {
         3:"Realistic hour estimate with clear justification and a specific plan for when and how work will be completed.",
         2:"Time estimate given but justification or plan is vague.",
         1:"No estimate, or the plan is unrealistic or missing.",
-        0:"No timeline or planning presented." }}
-    ]},
-    { name: "Sources", items: [
-      { id:"3A", name:"APA sources", max:3, levels:{
-        3:"2 or more sources on separate slides, each with a consistent APA citation, a clear summary, and a 'What this means' statement for the experiment.",
-        2:"1 source with APA citation and summary, or 2 sources with inconsistent citations, a weak summary, or no 'What this means'.",
-        1:"No sources, or sources lack APA format and meaningful summaries.",
-        0:"No sources of any kind." }}
+        0:"No timeline or planning presented." }},
+      { id:"2D", name:"Data table layout", max:3, levels:{
+        3:"Labeled columns with Capitalized headers and units, a row for every trial and condition, and empty cells ready for data.",
+        2:"Table is present but missing units, headers, or a clear layout.",
+        1:"Table is unclear or missing labels.",
+        0:"No data table shown." }}
     ]},
     { name: "Slide design", items: [
-      { id:"4A", name:"Slide design", max:3, levels:{
+      { id:"3A", name:"Slide design", max:3, levels:{
         3:"Photos from your own experiment on every slide; minimal text; slide titles capitalized; clean and engaging.",
         2:"Most slides have photos of the experiment; some are text-heavy, off-topic, or have lowercase titles.",
         1:"Few experiment photos, GIFs or unrelated images, or cluttered with too much text.",
         0:"No slides shown." }}
     ]},
     { name: "Public speaking", items: [
-      { id:"5A", name:"Speaking skills", max:3, levels:{
+      { id:"4A", name:"Speaking skills", max:3, levels:{
         3:"Clear and confident, consistent eye contact, does not read from the slides.",
         2:"Generally clear but relies on notes or slides; some hesitation.",
         1:"Hard to hear or understand; reads directly from slides.",
         0:"Did not speak or was absent." }},
-      { id:"5B", name:"Organization and flow", max:3, levels:{
+      { id:"4B", name:"Organization and flow", max:3, levels:{
         3:"Logical order with smooth transitions that connect each slide to the next; easy to follow.",
         2:"Mostly logical but some parts feel out of place or abrupt.",
         1:"Disorganized or difficult to follow.",
         0:"No discernible structure." }},
-      { id:"5C", name:"Equal participation", max:3, levels:{
+      { id:"4C", name:"Equal participation", max:3, levels:{
         3:"All partners speak a roughly equal amount of time.",
         2:"Most partners speak, but time is noticeably uneven.",
         1:"One partner dominates; the other barely speaks.",
         0:"Only one partner spoke, or the group was absent." }},
-      { id:"5D", name:"Time (5 min max)", max:3, levels:{
+      { id:"4D", name:"Time (5 min max)", max:3, levels:{
         3:"4 to 5 minutes, well paced with nothing rushed or dragged out.",
         2:"Slightly under or over (3 to 4 or 5 to 6 minutes); pacing is uneven.",
         1:"Under 3 minutes or over 6 minutes; rushed or padded.",
@@ -253,7 +256,12 @@ final: {
         4:"If, then, because prediction with strong reasoning supported by a source.",
         3:"Reasonable prediction; the reasoning or source is thin.",
         2:"Prediction is weak or poorly explained.",
-        1:"Missing or unrelated to the experiment." }}
+        1:"Missing or unrelated to the experiment." }},
+      { id:"1D", name:"Null hypothesis", max:4, levels:{
+        4:"Correct null hypothesis: states there will be no difference between the conditions, and matches the dependent variable.",
+        3:"Null hypothesis is present with a small wording problem.",
+        2:"Unclear or not a \"no difference\" statement.",
+        1:"Missing, or confused with the hypothesis." }}
     ]},
     { name: "Recap, data, and graphs", items: [
       { id:"2A", name:"Recap of the experiment", max:4, levels:{
@@ -262,25 +270,25 @@ final: {
         2:"Recap is incomplete or hard to follow.",
         1:"No recap slide." }},
       { id:"2B", name:"Data table and graph together", max:4, levels:{
-        4:"Complete table (all 10 data points, units) and a graph that accurately matches it, shown together on the same slide.",
-        3:"Table and graph are both present with minor issues, or they are on separate slides.",
-        2:"Table or graph is partly complete, messy, or confusing.",
-        1:"Missing, unusable, or the wrong type of graph." }},
-      { id:"2C", name:"Labels, units, and clarity", max:4, levels:{
-        4:"Clear title, labeled axes with units, easy to read.",
-        3:"Mostly clear; minor errors.",
-        2:"Some labels or units missing.",
+        4:"Complete table (all 10 data points) with Capitalized headers, units, alternating colors, and outlined cells, shown with a graph of the correct type that matches it, on the same slide.",
+        3:"Table and graph are both present with minor issues (a missing format step or one unit), or they are on separate slides.",
+        2:"Table or graph is partly complete, messy, confusing, or the wrong type of graph.",
+        1:"Missing or unusable." }},
+      { id:"2C", name:"Graph labels, units, and capitals", max:4, levels:{
+        4:"Graph title and both axis titles use Capitalized Important Words and include units; easy to read.",
+        3:"Mostly clear; one small capitalization or unit error.",
+        2:"Several labels, units, or capital letters missing.",
         1:"Poor or missing labels." }}
     ]},
     { name: "Data analysis", items: [
       { id:"3A", name:"Compare the conditions", max:4, levels:{
-        4:"Uses numbers (averages, differences, percent change) to clearly compare the conditions.",
+        4:"Uses numbers to clearly compare the conditions, including percent change from each trial's starting number when there is one.",
         3:"Compares the conditions with some numbers.",
         2:"Limited or vague comparison.",
         1:"Little or no comparison." }},
       { id:"3B", name:"P-value analysis", max:4, levels:{
-        4:"States the p-value and explains in their own words whether the difference is statistically significant and what that means.",
-        3:"States the p-value with a mostly correct explanation.",
+        4:"States the p-value and explains in their own words whether the difference is statistically significant, and whether the null hypothesis is rejected.",
+        3:"States the p-value with a mostly correct explanation, but does not connect it to the null hypothesis.",
         2:"Mentions the p-value but the explanation is vague or partly incorrect.",
         1:"No p-value or no explanation." }},
       { id:"3C", name:"Explain why it happened", max:4, levels:{
@@ -345,7 +353,7 @@ final: {
 window.rubricTotal = function(r){ let t=0; r.sections.forEach(s=>s.items.forEach(i=>t+=i.max)); return t; };
 
 /* which criterion is the time score, and how minutes map to a suggested score */
-RUBRICS.mm.timeId = "5D";
+RUBRICS.mm.timeId = "4D";
 RUBRICS.mm.timeScore = function(m){ return (m>=4&&m<=5)?3 : ((m>=3&&m<4)||(m>5&&m<=6))?2 : m>=0.5?1 : 0; };
 RUBRICS.final.timeId = "6H";
 RUBRICS.final.timeScore = function(m){ return (m>=5&&m<=8)?2 : ((m>=3&&m<5)||(m>8&&m<=9))?1 : 0; };

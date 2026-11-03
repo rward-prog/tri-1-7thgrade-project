@@ -15,15 +15,20 @@
 <!-- BRAINSTORM -->
 <section id="brainstorm"><div class="wrap">
   <h2>What should we test?</h2>
-  <p class="lede">Pick exercise (heart rate goes up) or the opposite (calming down and meditation). Your experiment needs two conditions to compare, because that is what makes the p-value work later. Steal an idea below or invent your own.</p>
+  <p class="lede">Raise your heart rate with exercise, or lower it by calming down with meditation, breathing, and more. Your experiment needs two conditions to compare, because that is what makes the p-value work later. Steal an idea below or invent your own.</p>
   <div class="guard">
     <h3>Ground rules for every experiment</h3>
     <ul>
+      <li><b>NO VIDEO GAMES.</b> Not as the thing you change, and not as the thing you measure.</li>
       <li>No caffeine, energy drinks, or supplements this year.</li>
       <li>Light to moderate exercise only. Stop right away if you feel dizzy, sick, or hurt.</li>
       <li>Your teacher must approve your plan before you collect any data.</li>
       <li>Keep health information private. Use first names or initials in anything you share.</li>
     </ul>
+  </div>
+  <div class="twoway">
+    <div class="tw up"><h3>Raise your heart rate</h3><p>Exercise like jumping jacks, planks, and sit-ups. Measure right after you stop, then see how fast it comes back down.</p></div>
+    <div class="tw down"><h3>Lower your heart rate</h3><p>Calm down with breathing, meditation, relaxing sounds, or closing your eyes. Sit quietly for 2 minutes first, then measure your resting heart rate. Use the same seat and the same time of day for every trial.</p></div>
   </div>
   <div class="builder" id="builder">
     <h3>Experiment builder</h3>
@@ -39,10 +44,22 @@
   <div class="filters" role="group" aria-label="Idea type">
     <button class="chip-btn" aria-pressed="true" data-lane="all">All ideas</button>
     <button class="chip-btn" aria-pressed="false" data-lane="exercise">Exercise</button>
-    <button class="chip-btn" aria-pressed="false" data-lane="calm">Calm down</button>
+    <button class="chip-btn" aria-pressed="false" data-lane="calm">Lower heart rate</button>
+    <button class="chip-btn" aria-pressed="false" data-lane="other">More ideas</button>
     <button class="btn red small" id="surprise" type="button">Surprise me</button>
   </div>
   <div class="ideas" id="ideas"></div>
+
+  <div class="tools">
+    <h3>Tools for measuring</h3>
+    <div class="toolgrid">
+      <div class="tool"><b>Pulse</b><span>Find your pulse on your wrist or neck. Count for 15 seconds and multiply by 4.</span></div>
+      <div class="tool"><b>Reaction time</b><span>Use the <a href="reaction.html">class reaction time test</a> (milliseconds), or the ruler drop test with a partner (centimeters).</span></div>
+      <div class="tool"><b>Percent change</b><span>For heart rate, breaths, and running time, calculate (After &minus; Before) &divide; Before &times; 100. See the <a href="stats.html">P-value page</a>.</span></div>
+      <div class="tool"><b>Stopwatch</b><span>Use the same phone stopwatch every time, and have the same person start and stop it.</span></div>
+      <div class="tool"><b>Breaths per minute</b><span>A partner counts your breaths for 30 seconds and doubles it. Do not tell the person when counting starts.</span></div>
+    </div>
+  </div>
 
   <div class="checker">
     <h3>Check your idea</h3>
@@ -70,7 +87,16 @@ const IDEAS = [
  {lane:"calm",name:"Deep breathing",iv:"2 minutes of slow breathing vs 2 minutes sitting quietly",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same seat, same room, same time of day"},
  {lane:"calm",name:"Calm vs upbeat music",iv:"Type of music (calm or upbeat) for 3 minutes",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same volume, same person, same seat"},
  {lane:"calm",name:"Guided meditation",iv:"Guided meditation vs sitting quietly",dv:"Heart rate after 3 minutes (bpm)",how:"Pulse count",keep:"Same length, same room, nothing else going on"},
- {lane:"calm",name:"Lying down vs standing",iv:"Body position",dv:"Resting heart rate (bpm)",how:"Pulse count after 2 minutes",keep:"Same person, same rest first, same room"}
+ {lane:"calm",name:"Lying down vs standing",iv:"Body position",dv:"Resting heart rate (bpm)",how:"Pulse count after 2 minutes",keep:"Same person, same rest first, same room"},
+ {lane:"exercise",name:"Plank: 30 s vs 60 s",iv:"Length of the plank",dv:"Heart rate right after (bpm)",how:"Pulse count for 15 s times 4",keep:"Same plank position, same mat, same rest"},
+ {lane:"exercise",name:"Warm-up and sit-ups",iv:"Warm-up (1 minute of stretching vs none)",dv:"Sit-ups in 30 seconds",how:"Partner counts full sit-ups",keep:"Same sit-up form, same mat, same rest"},
+ {lane:"exercise",name:"Exercise and reaction time",iv:"Rest vs 1 minute of jumping jacks",dv:"Reaction time (ms, class online test)",how:"Average of 5 tries on the class reaction test",keep:"Same device, same hand, same room"},
+ {lane:"calm",name:"Eyes closed vs eyes open",iv:"Eyes open or closed for 2 minutes",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same seat, same room, same lighting"},
+ {lane:"calm",name:"Muscle relaxation",iv:"3 minutes of squeeze-and-release vs sitting quietly",dv:"Breaths per minute",how:"Partner counts breaths for 30 s and doubles",keep:"Same seat, same room, same time of day"},
+ {lane:"calm",name:"Nature sounds vs silence",iv:"3 minutes of nature sounds vs silence",dv:"Resting heart rate (bpm)",how:"Pulse count at the end",keep:"Same volume, same seat, same room"},
+ {lane:"calm",name:"Mental math and stress",iv:"2 minutes of mental math vs sitting quietly",dv:"Heart rate (bpm)",how:"Pulse count at the end",keep:"Same math difficulty, same seat, friendly tone"},
+ {lane:"other",name:"Balance: eyes open vs closed",iv:"Eyes open or closed",dv:"Seconds balancing on one foot",how:"Partner times you",keep:"Same foot, same floor, same arm position"},
+ {lane:"other",name:"Exercise and memory",iv:"Rest vs 1 minute of jumping jacks, then a word list",dv:"Words remembered out of 15",how:"Partner reads a new list each trial",keep:"Same list difficulty, same wait time, same reader"}
 ];
 
 const CHECKS = [
@@ -78,7 +104,7 @@ const CHECKS = [
  "I measure with a number (my dependent variable has units).",
  "I compare two conditions, like A vs B.",
  "I can repeat it so my data adds up to 10 data points.",
- "It is safe, uses no caffeine, and is school appropriate.",
+ "It is safe, uses no caffeine or video games, and is school appropriate.",
  "I can do it with materials we can get and finish by the data deadline."
 ];
 
@@ -88,7 +114,7 @@ function renderIdeas(hl){
   const box=$("#ideas"); box.innerHTML="";
   IDEAS.filter(x=>lane==="all"||x.lane===lane).forEach(x=>{
     const el=document.createElement("article"); el.className="idea"+(hl===x.name?" hl":""); if(hl===x.name) el.id="hl";
-    el.innerHTML=`<div class="lane ${x.lane}">${x.lane==="calm"?"Calm down":"Exercise"}</div><h3>${x.name}</h3>
+    el.innerHTML=`<div class="lane ${x.lane}">${x.lane==="calm"?"Lower your heart rate":x.lane==="other"?"More ideas":"Exercise (raises heart rate)"}</div><h3>${x.name}</h3>
      <dl><dt>Independent variable</dt><dd>${x.iv}</dd><dt>Dependent variable</dt><dd>${x.dv}</dd><dt>How to measure</dt><dd>${x.how}</dd><dt>Keep the same</dt><dd>${x.keep}</dd></dl>`;
     box.appendChild(el);
   });
@@ -128,30 +154,54 @@ const BIV = [
   keep:["Same volume","Same person","Music starts at the same moment","Same activity each time"],space:"Any room. Use a phone or speaker.",mats:["Phone or speaker","Two playlists you checked for tempo"]},
  {id:"hydration",grp:"Get ready for exercise",type:"hydration",name:"Water before exercise vs no water",A:"no water in the 15 minutes before",B:"1 cup (8 oz) of water 10 minutes before",
   keep:["Same amount of water","Same wait time","Same person","Same activity each time"],space:"Any room.",mats:["Cup and water","Measuring cup"]},
- {id:"breathing",grp:"Calm down",type:"calm",name:"Slow breathing vs sitting quietly",A:"sitting quietly for 2 minutes",B:"slow deep breathing for 2 minutes (in for 4, out for 6)",
+ {id:"breathing",grp:"Lower your heart rate",type:"calm",name:"Slow breathing vs sitting quietly",A:"sitting quietly for 2 minutes",B:"slow deep breathing for 2 minutes (in for 4, out for 6)",
   keep:["Same seat","Same room","Same time of day","Same length of time"],space:"Any quiet spot at home.",mats:["Chair","Timer"]},
- {id:"meditation",grp:"Calm down",type:"calm",name:"Guided meditation vs sitting quietly",A:"sitting quietly for 3 minutes",B:"a guided meditation for 3 minutes",
+ {id:"meditation",grp:"Lower your heart rate",type:"calm",name:"Guided meditation vs sitting quietly",A:"sitting quietly for 3 minutes",B:"a guided meditation for 3 minutes",
   keep:["Same seat","Same room","Same length","Same starting activity before each trial"],space:"Any quiet spot at home.",mats:["Chair","A 3 minute guided meditation recording","Headphones"]},
- {id:"position",grp:"Calm down",type:"calm",name:"Lying down vs standing",A:"standing still for 2 minutes",B:"lying down for 2 minutes",
+ {id:"position",grp:"Lower your heart rate",type:"calm",name:"Lying down vs standing",A:"standing still for 2 minutes",B:"lying down for 2 minutes",
   keep:["Same person","Same room","Same rest before each trial","Same length of time"],space:"Tiny space. Works in any room.",mats:["Floor mat or bed"]},
- {id:"video",grp:"Calm down",type:"mood",name:"Calm vs exciting video clip",A:"a calm nature video (3 minutes)",B:"an exciting, school-appropriate video (3 minutes)",
-  keep:["Same screen and volume","Same seat","Same length","Clips approved by your teacher"],space:"Any spot with a screen.",mats:["Phone or tablet","Two approved clips of the same length"]}
+ {id:"video",grp:"Mood and stress",type:"mood",name:"Calm vs exciting video clip (not a video game)",A:"a calm nature video (3 minutes)",B:"an exciting, school-appropriate video (3 minutes)",
+  keep:["Same screen and volume","Same seat","Same length","Clips approved by your teacher"],space:"Any spot with a screen.",mats:["Phone or tablet","Two approved clips of the same length"]},
+ {id:"plank",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Plank: 30 s vs 60 s",A:"a 30 second plank",B:"a 60 second plank",
+  keep:["Same plank position","Same mat","Same person","Same rest before each trial"],space:"Tiny space. A mat or rug on the floor works.",mats:["Soft mat or rug"],safe:"Stop right away if your shoulders, back, or wrists hurt. If 60 seconds is too hard, use 20 vs 40 seconds."},
+ {id:"situps",grp:"Exercise (changes how hard you work)",type:"exertion",name:"Sit-ups: 30 s vs 60 s",A:"30 seconds of sit-ups",B:"60 seconds of sit-ups",
+  keep:["Same sit-up form","Same mat","Same pace","Same rest before each trial"],space:"Tiny space. A mat or rug on the floor works.",mats:["Soft mat or rug","A partner to count"],safe:"Cross your arms on your chest. Do not pull on your neck. Stop if your back or neck hurts."},
+ {id:"eyes",grp:"Lower your heart rate",type:"eyes",name:"Eyes closed vs eyes open",A:"eyes open for the whole trial",B:"eyes closed for the whole trial",
+  keep:["Same seat or spot","Same room and lighting","Same length of time","Same person"],space:"Any quiet spot. Stand near a wall if you test balance.",mats:["Chair or a clear spot on the floor","Timer"]},
+ {id:"pmr",grp:"Lower your heart rate",type:"calm",name:"Muscle relaxation vs sitting quietly",A:"sitting quietly for 3 minutes",B:"3 minutes of squeeze-and-release relaxation (tense each muscle group for 5 seconds, then let go)",
+  keep:["Same seat","Same room","Same time of day","Same length of time"],space:"Any quiet spot at home.",mats:["Chair","Timer","A written list of muscle groups (hands, arms, shoulders, legs, feet)"]},
+ {id:"sounds",grp:"Lower your heart rate",type:"calm",name:"Nature sounds vs silence",A:"3 minutes of silence",B:"3 minutes of calm nature sounds",
+  keep:["Same volume","Same seat","Same room","Same length of time"],space:"Any quiet spot at home.",mats:["Phone or speaker","Headphones","One recording used every time"]},
+ {id:"math",grp:"Mood and stress",type:"mood",name:"Mental math vs sitting quietly",A:"sitting quietly for 2 minutes",B:"2 minutes of mental math problems (like subtracting 7 from 500 again and again)",
+  keep:["Same difficulty of problems","Same seat","Same length of time","A friendly tone, no competition"],space:"Any quiet spot.",mats:["A printed list of math problems","Timer"],safe:"Keep it friendly. No timers or competition that could upset anyone."}
 ];
 const BDV = [
- {id:"hr",name:"Heart rate (beats per minute)",what:"heart rate",measure:"Find your pulse on your wrist or neck. Count the beats for 15 seconds, then multiply by 4. Start counting within 5 seconds of finishing.",
+ {id:"hr",pc:true,name:"Heart rate (beats per minute)",what:"heart rate",measure:"Find your pulse on your wrist or neck. Count the beats for 15 seconds, then multiply by 4. Start counting within 5 seconds of finishing.",
   keep:["Same pulse spot","Same person counting","Same counting method"],mats:["Timer or phone stopwatch"],baseline:true},
  {id:"recov",name:"Recovery time (seconds)",what:"recovery time",measure:"Check your pulse every 15 seconds (count for 15 s, multiply by 4). Record the total seconds until you are within 10 beats of your starting heart rate.",
   keep:["Same resting baseline","Same pulse spot","Same checking schedule"],mats:["Timer or phone stopwatch"],baseline:true},
  {id:"reps",name:"Repetitions in 30 seconds",what:"number of squats in 30 seconds",measure:"Your partner counts full squats in 30 seconds. Only count squats that reach the same depth (thighs about parallel to the floor).",
   keep:["Same squat depth","Same person counting","Same 30 second timer"],mats:["Timer or phone stopwatch","A partner to count"],baseline:false},
- {id:"breaths",name:"Breaths per minute",what:"breaths per minute",measure:"Your partner watches your chest and counts breaths for 30 seconds, then multiplies by 2. Do not tell the person when counting starts so breathing stays natural.",
+ {id:"breaths",pc:true,name:"Breaths per minute",what:"breaths per minute",measure:"Your partner watches your chest and counts breaths for 30 seconds, then multiplies by 2. Do not tell the person when counting starts so breathing stays natural.",
   keep:["Same counter","Same body position while counting","Same counting window"],mats:["Timer or phone stopwatch","A partner to count"],baseline:true},
  {id:"reaction",name:"Reaction time (ruler drop, cm)",what:"reaction time",measure:"Your partner holds a 30 cm ruler at the 30 cm end and drops it without warning. You catch it. Record the number where your thumb lands. A smaller number means a faster reaction.",
   keep:["Same partner dropping","Same starting hand position","Same ruler"],mats:["30 cm ruler","A partner to drop it"],baseline:false},
  {id:"rpe",name:"Effort rating (1 to 10)",what:"effort rating",measure:"Right after the activity, rate how hard it felt from 1 (very easy) to 10 (hardest you can imagine). Use the same scale every time and write it down before talking about it.",
   keep:["Same scale every trial","Same person rating","Rate right away"],mats:["Printed 1 to 10 scale"],baseline:false},
  {id:"wall",name:"Wall-sit hold time (seconds)",what:"wall-sit hold time",measure:"Back flat on a wall, knees bent at 90 degrees. Your partner times you until you must stop. Stop right away if it hurts.",
-  keep:["Same knee angle","Same wall","Same person timing","Same rest before each trial"],mats:["Wall","Timer or phone stopwatch","A partner to time"],baseline:false}
+  keep:["Same knee angle","Same wall","Same person timing","Same rest before each trial"],mats:["Wall","Timer or phone stopwatch","A partner to time"],baseline:false},
+ {id:"situps",name:"Sit-ups in 30 seconds",what:"number of sit-ups in 30 seconds",measure:"Your partner counts full sit-ups in 30 seconds (arms crossed, shoulders up to your knees and back down). Only count sit-ups done the same way every time.",
+  keep:["Same sit-up form","Same mat","Same person counting"],mats:["Timer or phone stopwatch","A partner to count","Soft mat or rug"],safe:"Cross your arms on your chest. Do not pull on your neck. Stop if your back or neck hurts.",baseline:false},
+ {id:"plank",name:"Plank hold time (seconds)",what:"plank hold time",measure:"Hold a forearm plank with your body in a straight line. Your partner times you until your hips drop or you have to stop.",
+  keep:["Same plank position","Same mat","Same person timing","Same rest before each trial"],mats:["Timer or phone stopwatch","A partner to time","Soft mat or rug"],safe:"Stop right away if your shoulders, back, or wrists hurt. Do not push to your limit.",baseline:false},
+ {id:"onlinerx",name:"Reaction time (class online test, ms)",what:"reaction time",measure:"Use the class reaction time test. Click as fast as you can when the screen turns green. Do 5 tries and use the average as one data point. Use the same device and the same hand every time.",
+  keep:["Same device and screen","Same hand","Same test every time","Same number of tries (5)"],mats:["Computer, tablet, or phone with internet"],link:{href:"reaction.html",label:"Open the class reaction time test"},baseline:false},
+ {id:"balance",name:"Balance time on one foot (seconds)",what:"balance time",measure:"Stand on one foot with your arms at your sides and the other foot off the floor. Your partner times you until your raised foot touches down or you hop.",
+  keep:["Same foot","Same floor","Same arm position","Same person timing"],mats:["Timer or phone stopwatch","A partner to time"],safe:"Stand near a wall or couch you can grab. Use a flat floor with no rugs that slide.",baseline:false},
+ {id:"memory",name:"Memory: words remembered (out of 15)",what:"number of words remembered",measure:"Your partner reads a list of 15 simple words once. After 30 seconds, write down as many as you remember and count the correct ones. Use a new list each trial, with the same difficulty.",
+  keep:["Same number of words","Lists of the same difficulty","Same person reading","Same wait before recalling"],mats:["10 different word lists of 15 words","Paper and pencil","A partner to read"],baseline:false},
+ {id:"runtime",pc:true,name:"Time to run a set distance (seconds)",what:"running time",measure:"Mark a start line and a finish line (about 20 meters or 60 feet, like a school gym, hallway, or playground). Your partner times you with a stopwatch from the start signal until your chest crosses the finish line. Run at a steady, medium effort, not an all-out sprint.",
+  keep:["Same distance (measure it)","Same surface and shoes","Same start signal","Same person timing","Same effort level"],mats:["Tape or chalk for the lines","Measuring tape","Timer or phone stopwatch","A partner to time"],safe:"Run only in a safe, open space with no people in the way. Stop if you feel dizzy or hurt.",baseline:false}
 ];
 const BM = { // rating of each IV type with each DV: [rating, note]
  exertion:{hr:["great","The classic. Exercise raises heart rate, and you only need your fingers and a timer."],
@@ -197,6 +247,49 @@ const BM = { // rating of each IV type with each DV: [rating, note]
   rpe:["no","An effort rating does not fit a video. Try heart rate instead."],
   wall:["no","A wall sit tests muscle endurance. Try heart rate or breaths per minute instead."]}
 };
+BM.eyes={hr:["ok","Does closing your eyes slow your heart a little? Differences may be small, and a small difference is still a real result."],
+  recov:["no","Recovery time needs exercise first. Try balance time or heart rate instead."],
+  reps:["no","Counting reps measures strength, not what your eyes are doing. Try balance time instead."],
+  breaths:["ok","Does closing your eyes change your breathing? Easy to count."],
+  reaction:["no","A reaction test needs your eyes open to see the signal. Try balance time instead."],
+  rpe:["no","An effort rating does not fit because there is no effort. Try balance time or heart rate instead."],
+  wall:["no","A wall sit tests muscle endurance, not what your eyes are doing. Try balance time instead."]};
+const BM_EXTRA={
+ runtime:{exertion:["ok","A fatigue test. Do the exercise, then right away run the set distance. Does being tired slow you down? Compare each run to your normal baseline run."],
+  prep:["great","Does warming up (or not) change your run time? Compare each run to your baseline run."],
+  music:["great","Does fast or slow music change your run time? Start the music at the same moment each trial and keep the volume the same."],
+  hydration:["ok","Water may change run time only a little. A no-difference result is still real data."],
+  calm:["ok","Does calming down first change how fast you run? Fun, but expect small differences."],
+  mood:["ok","Does stress or excitement before a run change your time? Expect small differences."],
+  eyes:["no","Running with your eyes closed is not safe. Try balance time or heart rate instead."]},
+ balance:{exertion:["ok","A fatigue test. Do the exercise, then right away time a one-foot balance. Does being tired make you wobble sooner?"],
+  prep:["ok","Does warming up (or not) change your balance? Time a one-foot balance right after."],
+  music:["ok","Does fast or slow music change your balance? Keep the volume the same."],
+  hydration:["ok","Water may not change balance much in a short test. A no-difference result is still real data."],
+  calm:["ok","Does calming down first help you balance longer? Time a one-foot balance right after."],
+  mood:["ok","Does a calm or exciting activity change your balance? Fun, but expect small differences."],
+  eyes:["great","A classic. Balance on one foot with your eyes open, then with your eyes closed. Closing your eyes should make it much harder."]},
+ memory:{exertion:["great","Does exercise right before help you remember? Do the exercise, then take a memory test. Use a new word list each trial."],
+  prep:["ok","Does warming up first change memory? Differences may be small. Use a new word list each trial."],
+  music:["great","Does fast or slow music playing while you hear the list change memory? Use a new list each trial."],
+  hydration:["ok","Water before a memory test may not change much. A no-difference result is still real data."],
+  calm:["great","Does calming down first help you remember? Do the calming activity, then take the memory test. Use a new list each trial."],
+  mood:["ok","Does stress or excitement before a memory test change how many words you remember? Use a new list each trial."],
+  eyes:["ok","Does closing your eyes while you listen help you remember? Your partner reads the words aloud. Use a new list each trial."]}
+};
+const ALIAS={situps:"reps",plank:"wall",onlinerx:"reaction"};
+function getR(iv,dv){
+  if((iv.id==="plank"&&dv.id==="plank")||(iv.id==="situps"&&dv.id==="situps")) return ["no","The thing you change and the thing you measure cannot be the same exercise. Do the exercise, then measure something else, like heart rate or breaths per minute."];
+  if(BM_EXTRA[dv.id]) return BM_EXTRA[dv.id][iv.type];
+  const base=ALIAS[dv.id]||dv.id;
+  let [r,n]=BM[iv.type][base];
+  if(dv.id==="situps") n=n.replace(/squats/g,"sit-ups");
+  if(dv.id==="plank") n=n.replace(/wall sit/g,"plank").replace(/wall-sit/g,"plank");
+  if(dv.id==="onlinerx") n=n.replace("Use the same partner to drop the ruler.","Use the same device and the same test every time.").replace("so use the same ruler dropper every time","so use the same device every time");
+  return [r,n];
+}
+const GROUP_ORDER=["Exercise (changes how hard you work)","Get ready for exercise","Lower your heart rate","Mood and stress"];
+BIV.sort((a,b)=>GROUP_ORDER.indexOf(a.grp)-GROUP_ORDER.indexOf(b.grp));
 const cap = t => t.charAt(0).toUpperCase()+t.slice(1);
 const BASE_ACT = "1 minute of jumping jacks at the same pace every time (or walking in place if you have little space)";
 function fillSelects(){
@@ -207,36 +300,42 @@ function fillSelects(){
   dv.innerHTML='<option value="">Choose what you will measure</option>'+BDV.map(x=>`<option value="${x.id}">${x.name}</option>`).join("");
 }
 function planText(iv,dv,rating){
-  const needBase = ["prep","music","hydration"].includes(iv.type) && ["hr","recov","breaths","reaction","rpe"].includes(dv.id);
+  const QUIET=["calm","mood","eyes"];
+  const needBase = ["prep","music","hydration"].includes(iv.type) && ["hr","recov","breaths","reaction","onlinerx","rpe"].includes(dv.id);
   const mats = [...new Set([...iv.mats,...dv.mats,"Data table (paper or Google Sheets)"])];
   const keep = [...new Set([...iv.keep,...dv.keep])];
   const steps=[];
-  if(dv.baseline && !["calm","mood"].includes(iv.type)) steps.push("Sit and rest for 2 minutes. Measure your starting "+dv.what+" (baseline).");
-  if(["calm","mood"].includes(iv.type)) steps.push("Sit or stand quietly for 2 minutes first. Measure your starting "+dv.what+" (baseline).");
+  if(dv.baseline && !QUIET.includes(iv.type)) steps.push("Sit and rest for 2 minutes. Measure your starting "+dv.what+" (baseline).");
+  if(QUIET.includes(iv.type) && dv.baseline) steps.push("Sit or stand quietly for 2 minutes first. Measure your starting "+dv.what+" (baseline).");
+  if(dv.id==="runtime") steps.push("Do one normal run first with no changes. That time is your starting number (baseline).");
   steps.push("Flip a coin or alternate to decide which condition goes first, so order does not change the results.");
   if(iv.type==="music" && needBase){
     steps.push("Start the music: "+iv.A+" for Condition A, or "+iv.B+" for Condition B. Then do the same standard activity every time while it plays: "+BASE_ACT+".");
+  } else if(iv.type==="music"){
+    steps.push("Start the music: "+iv.A+" for Condition A, or "+iv.B+" for Condition B. Keep it playing during the test below.");
   } else {
     steps.push("Do the condition: "+cap(iv.A)+" for Condition A, or "+cap(iv.B)+" for Condition B.");
     if(needBase) steps.push("Then do the same standard activity every time: "+BASE_ACT+".");
   }
-  if(iv.type==="exertion" && ["reps","wall"].includes(dv.id)) steps.push("Right after the exercise, start the test below without resting.");
+  if(iv.type==="exertion" && ["reps","wall","situps","plank","balance","memory"].includes(dv.id)) steps.push("Right after the exercise, start the test below without resting.");
   steps.push("Measure: "+dv.measure);
-  steps.push(["calm","mood"].includes(iv.type)?"Rest for at least 3 minutes before the next trial.":"Rest until your pulse is back near your starting number, at least 3 minutes, before the next trial.");
-  steps.push("Write the number in your data table right away. Repeat until you have 5 data points for each condition (10 total).");
-  const QW={jj:"the length of jumping jacks (30 seconds vs 60 seconds)",walkjog:"jogging instead of walking in place",stairs:"walking on stairs instead of flat ground",jumprope:"jumping rope instead of doing jumping jacks",warmup:"warming up first",music:"listening to fast music instead of slow music",hydration:"drinking water before exercise",breathing:"slow deep breathing",meditation:"guided meditation",position:"lying down instead of standing",video:"watching an exciting video instead of a calm one"};
+  steps.push(QUIET.includes(iv.type)?"Rest for at least 3 minutes before the next trial.":"Rest until your pulse is back near your starting number, at least 3 minutes, before the next trial.");
+  steps.push("Write the number in your data table right away"+(dv.pc?", along with your starting number. Then calculate the percent change: (after - before) / before x 100":"")+". Repeat until you have 5 data points for each condition (10 total).");
+  const QW={jj:"the length of jumping jacks (30 seconds vs 60 seconds)",walkjog:"jogging instead of walking in place",stairs:"walking on stairs instead of flat ground",jumprope:"jumping rope instead of doing jumping jacks",warmup:"warming up first",music:"listening to fast music instead of slow music",hydration:"drinking water before exercise",breathing:"slow deep breathing",meditation:"guided meditation",position:"lying down instead of standing",video:"watching an exciting video clip instead of a calm one",plank:"the length of a plank (30 seconds vs 60 seconds)",situps:"the length of time doing sit-ups (30 seconds vs 60 seconds)",eyes:"closing your eyes",pmr:"muscle relaxation",sounds:"listening to nature sounds",math:"doing mental math"};
   const q = `Does ${QW[iv.id]} change a person's ${dv.what}?`;
   const hyp = `If I compare ${iv.A} with ${iv.B}, then the ${dv.what} will be ______ (higher or lower) with the second condition than with the first, because ______ (use your source).`;
-  return {q,hyp,mats,keep,steps,space:iv.space,A:iv.A,B:iv.B};
+  const safe=[iv.safe,dv.safe].filter(Boolean);
+  const nullh = `There will be no difference in the ${dv.what} between ${iv.A} and ${iv.B}.`;
+  return {q,hyp,nullh,mats,keep,steps,space:iv.space,safe,link:dv.link,A:iv.A,B:iv.B};
 }
 function renderBuilder(){
   const iv=BIV.find(x=>x.id===$("#ivSel").value), dv=BDV.find(x=>x.id===$("#dvSel").value), out=$("#bOut");
   if(!iv||!dv){ out.innerHTML=""; return; }
-  const [rating,note]=BM[iv.type][dv.id];
+  const [rating,note]=getR(iv,dv);
   const label={great:"Great experiment",ok:"Works with a tweak",no:"Not a real experiment yet"}[rating];
   let h=`<div class="b-verdict ${rating}"><h4>${label}</h4><p>${note}</p>`;
   if(rating==="no"){
-    const alts=BDV.filter(d=>BM[iv.type][d.id][0]!=="no");
+    const alts=BDV.filter(d=>getR(iv,d)[0]!=="no");
     h+=`<p style="margin-top:8px"><b>Try measuring one of these instead:</b></p><div class="b-alt">`+alts.map(d=>`<button class="btn small ghost" type="button" data-alt="${d.id}">${d.name}</button>`).join("")+`</div></div>`;
     out.innerHTML=h; return;
   }
@@ -245,8 +344,9 @@ function renderBuilder(){
   h+=`<div class="b-plan">
    <div class="b-box wide"><h5>Research question</h5><p>${p.q}</p></div>
    <div class="b-box wide"><h5>Hypothesis starter</h5><p>${p.hyp}</p></div>
+   <div class="b-box wide"><h5>Null hypothesis starter</h5><p>${p.nullh}</p></div>
    <div class="b-box"><h5>Conditions to compare</h5><ul><li><b>A:</b> ${cap(p.A)}</li><li><b>B:</b> ${cap(p.B)}</li></ul><p style="margin-top:6px"><b>Trials:</b> 5 of A and 5 of B, which makes your 10 data points. Switching back and forth keeps it fair.</p></div>
-   <div class="b-box"><h5>Materials</h5><ul>${p.mats.map(m=>"<li>"+m+"</li>").join("")}</ul><p style="margin-top:6px"><b>Space:</b> ${p.space}</p></div>
+   <div class="b-box"><h5>Materials</h5><ul>${p.mats.map(m=>"<li>"+m+"</li>").join("")}</ul><p style="margin-top:6px"><b>Space:</b> ${p.space}</p>${p.safe.length?`<p style="margin-top:6px"><b>Safety:</b> ${p.safe.join(" ")}</p>`:""}${p.link?`<p style="margin-top:6px"><a class="btn small" href="${p.link.href}">${p.link.label}</a></p>`:""}</div>
    <div class="b-box wide"><h5>Steps for each trial</h5><ol>${p.steps.map(m=>"<li>"+m+"</li>").join("")}</ol></div>
    <div class="b-box wide"><h5>Keep these the same (controls)</h5><ul>${p.keep.map(m=>"<li>"+m+"</li>").join("")}</ul></div>
   </div>
@@ -254,7 +354,7 @@ function renderBuilder(){
   <p class="note">This is a starting point. Your own idea and details go on the Methods Worksheet, and your teacher approves it before you collect data.</p>`;
   out.innerHTML=h;
   $("#bCopy").onclick=async()=>{
-    const t=["Research question: "+p.q,"Hypothesis starter: "+p.hyp,"IV: "+iv.name,"DV: "+dv.name,"Condition A: "+cap(p.A),"Condition B: "+cap(p.B),"Trials: 5 of A and 5 of B (10 data points)","","Materials:",...p.mats.map(x=>"- "+x),"","Steps:",...p.steps.map((x,i)=>(i+1)+". "+x),"","Controls:",...p.keep.map(x=>"- "+x)].join("\n");
+    const t=["Research question: "+p.q,"Hypothesis starter: "+p.hyp,"Null hypothesis: "+p.nullh,"IV: "+iv.name,"DV: "+dv.name,"Condition A: "+cap(p.A),"Condition B: "+cap(p.B),"Trials: 5 of A and 5 of B (10 data points)","","Materials:",...p.mats.map(x=>"- "+x),...(p.safe.length?["","Safety: "+p.safe.join(" ")]:[]),"","Steps:",...p.steps.map((x,i)=>(i+1)+". "+x),"","Controls:",...p.keep.map(x=>"- "+x)].join("\n");
     try{ await navigator.clipboard.writeText(t); $("#bMsg").textContent="Copied."; }catch(e){ $("#bMsg").textContent="Copy did not work. Select the text and copy it."; }
   };
 }
@@ -263,7 +363,7 @@ $("#ivSel").addEventListener("change",renderBuilder);
 $("#dvSel").addEventListener("change",renderBuilder);
 $("#bOut").addEventListener("click",e=>{ const a=e.target.dataset&&e.target.dataset.alt; if(a){ $("#dvSel").value=a; renderBuilder(); } });
 $("#bRandom").addEventListener("click",()=>{
-  const pairs=[]; BIV.forEach(i=>BDV.forEach(d=>{ if(BM[i.type][d.id][0]==="great") pairs.push([i.id,d.id]); }));
+  const pairs=[]; BIV.forEach(i=>BDV.forEach(d=>{ if(getR(i,d)[0]==="great") pairs.push([i.id,d.id]); }));
   const p=pairs[Math.floor(Math.random()*pairs.length)]; $("#ivSel").value=p[0]; $("#dvSel").value=p[1]; renderBuilder();
 });
 

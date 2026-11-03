@@ -71,7 +71,7 @@ function renderUpNext(){
 
 
 /* ---------- navigation and pager ---------- */
-const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["howto.html","How to"],["scholar.html","Sources"],["stats.html","Data"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Grade yourself"]];
+const PAGES=[["index.html","Home"],["schedule.html","Schedule"],["brainstorm.html","Brainstorm"],["reaction.html","Reaction"],["howto.html","How to"],["scholar.html","Sources"],["stats.html","P-value"],["sheets.html","Sheets"],["downloads.html","Downloads"],["rubrics.html","Rubrics"],["checkin.html","Check-in"],["self-check.html","Self-check"]];
 (function(){
   const cur=(location.pathname.split("/").pop()||"index.html");
   const nav=$("#navlinks");
