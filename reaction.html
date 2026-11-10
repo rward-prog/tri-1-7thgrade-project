@@ -336,6 +336,13 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 .bar-track .bar{display:block}
 .bar-val{white-space:nowrap}
 
+/* research question box on rubrics page */
+.rq-box{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;padding:16px 18px}
+.rq-box h3{font-size:22px;margin-bottom:4px}
+.rq-box h4{font-family:var(--head);font-size:18px;margin-bottom:4px}
+.rq-box h4.good{color:#12634C}.rq-box h4.weak{color:#B3202F}
+.rq-box ul{margin:4px 0 0 20px}.rq-box li{margin-bottom:6px;font-size:16px}
+
 </style>
 </head>
 <body>
@@ -391,6 +398,27 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
    self-check page, and the teacher grader all update together.
    max = points for the criterion. levels = what each score looks like.
    ===================================================================== */
+
+/* Research question examples, shown on the rubrics page and in the self-check */
+var RQ_EXAMPLES = {
+  title: "Research question examples",
+  tip: "A strong question names what you change, names what you measure, compares two conditions, and can be tested with numbers.",
+  good: [
+    "Does jogging in place for 60 seconds raise heart rate more than jogging for 30 seconds?",
+    "Does slow deep breathing for 2 minutes lower resting heart rate more than sitting quietly?",
+    "Does listening to fast music change the number of squats a person can do in 1 minute?",
+    "Does a 1 minute warm-up change how many push-ups a person can do in 30 seconds?",
+    "Does exercise right before a memory test change how many words a person remembers?"
+  ],
+  weak: [
+    { q: "Is exercise good for you?", why: "Too broad. You cannot answer it with one measurement.", fix: "Does 1 minute of jumping jacks raise heart rate?" },
+    { q: "What happens to your heart when you run?", why: "No comparison and no clear thing you change.", fix: "Does running for 60 seconds raise heart rate more than walking for 60 seconds?" },
+    { q: "Do people like fast music?", why: "That is an opinion. You cannot measure it with a number.", fix: "Does fast music change the number of squats a person can do in 1 minute?" },
+    { q: "Does meditation work?", why: "Vague. Work how? What will you measure?", fix: "Does 3 minutes of guided meditation lower resting heart rate more than sitting quietly?" },
+    { q: "Will heart rate go up after exercise?", why: "The answer is obvious and there is nothing to compare.", fix: "Does 60 seconds of exercise raise heart rate more than 30 seconds?" }
+  ]
+};
+
 window.RUBRICS = {
 
 /* ---------- Materials and Methods (check-in) presentation, 36 pts ---------- */
@@ -400,7 +428,7 @@ mm: {
   timeMax: 5,
   sections: [
     { name: "Scientific thinking", items: [
-      { id:"1A", name:"Research question", max:3, levels:{
+      { id:"1A", name:"Research question", max:3, examples: RQ_EXAMPLES, levels:{
         3:"Clear, testable question at or above 7th-grade level; strong scientific thinking.",
         2:"Testable but may be too simple or slightly below grade level.",
         1:"Unclear, untestable, or well below grade level.",
@@ -445,9 +473,9 @@ mm: {
     ]},
     { name: "Slide design", items: [
       { id:"3A", name:"Slide design", max:3, levels:{
-        3:"Photos from your own experiment on every slide; minimal text; slide titles capitalized; clean and engaging.",
-        2:"Most slides have photos of the experiment; some are text-heavy, off-topic, or have lowercase titles.",
-        1:"Few experiment photos, GIFs or unrelated images, or cluttered with too much text.",
+        3:"An image on every slide; minimal text; slide titles capitalized; clean and engaging.",
+        2:"Most slides have an image; some are text-heavy or have lowercase titles.",
+        1:"Few images, or cluttered with too much text.",
         0:"No slides shown." }}
     ]},
     { name: "Public speaking", items: [
@@ -487,7 +515,7 @@ final: {
         3:"Adequate background; two sources with summaries, but 'What this means' is thin or missing for one.",
         2:"Background is vague or incomplete, or only one source.",
         1:"Background and/or sources missing." }},
-      { id:"1B", name:"Research question", max:4, levels:{
+      { id:"1B", name:"Research question", max:4, examples: RQ_EXAMPLES, levels:{
         4:"Clear, specific, and testable.",
         3:"Clear but slightly broad.",
         2:"Present but unclear.",
@@ -617,25 +645,34 @@ const END_DATE     = "2026-11-23";   // last overflow day
 const ITEMS = [
  {d:"2026-11-03",t:"class",title:"Kickoff and brainstorm day",body:"Learn the project, choose your partner, and start brainstorming what to test. Name the IV, DV, and controls for two ideas.",link:"brainstorm.html",linkText:"Open the experiment builder"},
  {d:"2026-11-04",t:"due",title:"Methods Worksheet due",pts:22,body:"Both experiment ideas, your pick, materials, step-by-step procedure, hypothesis, null hypothesis, and why you chose it. Your teacher approves your plan today.",files:["methods"]},
- {d:"2026-11-06",t:"checkin",title:"Partner check-in #1 and data collection, day 1",body:"Fill out the check-in form. Start collecting data as soon as your plan is approved. Record every result in your data table right away. Start the Materials and Methods slides from the template.",files:["mmdeck"],form:true,ci:true},
+ {d:"2026-11-06",t:"checkin",title:"Partner check-in #1 and data collection, day 1",body:"Fill out the check-in form. Start collecting data as soon as your plan is approved. Record every result in your data table right away. Start the Materials and Methods slides from the template.",files:["gslides","mmdeck"],form:true,ci:true},
  {d:"2026-11-09",t:"class",title:"Data collection, day 2",body:"Keep running your trials. Your finished data table (all 10 data points) is due 11/16. Keep building your Materials and Methods slides."},
  {d:"2026-11-10",t:"checkin",title:"Partner check-in #2 and slides ready",body:"Your Materials and Methods slides must be ready to present tomorrow, including your data table layout. Fill out the check-in form.",link:"self-check.html?r=mm",linkText:"Grade your slides first",link2:"sheets.html",linkText2:"Tables and graphs help",form:true,ci:true},
- {d:"2026-11-11",t:"present",title:"Materials and Methods presentations",body:"Up to 5 minutes: your experiment, hypotheses, methods, and data table layout. Both partners speak. Fill out a classmate feedback sheet for each team. After presentations, start your Introduction Packet.",link:"rubrics.html",linkText:"See the rubric",files:["intro","fbmm"]},
- {d:"2026-11-13",t:"due",title:"Introduction Packet due, plus check-in #3",pts:23,body:"Two APA-cited sources from Google Scholar, plus one source that supports your hypothesis. Fill out the check-in form. Start your graphs, run your data through the AI prompt, and start your final slides from the template.",files:["intro","finaldeck"],link:"scholar.html",linkText:"Google Scholar and APA help",form:true,ci:true},
+ {d:"2026-11-11",t:"present",title:"Materials and Methods presentations",body:"Up to 5 minutes: your experiment, hypotheses, methods, and data table layout. Both partners speak. Fill out a classmate feedback sheet for each team. After presentations, start your Introduction Packet.",link:"rubrics.html",linkText:"See the rubric",files:["researchpacket","introguide","intro","fbmm"]},
+ {d:"2026-11-13",t:"due",title:"Introduction Packet due, plus check-in #3",pts:23,body:"Two APA-cited sources from Google Scholar, plus one source that supports your hypothesis. Fill out the check-in form. Start your graphs, run your data through the AI prompt, and start your final slides from the template.",files:["researchpacket","introguide","intro","finaldeck","sampledeck"],link:"scholar.html",linkText:"Google Scholar and APA help",form:true,ci:true},
  {d:"2026-11-16",t:"due",title:"Complete data table due (all 10 data points)",body:"Your finished data table with all 10 data points. Capitalized headers, units, alternating colors, outlined cells, and Before, After, and % Change columns if your measurement has a starting number.",link:"sheets.html",linkText:"Tables and graphs help",link2:"percent.html",linkText2:"Percent change help"},
+ {d:"2026-11-16",t:"due",title:"Conclusion Sheets 1 and 2 due",body:"Two one-page sheets to plan your conclusion and your presentation. The parts match slides in your final presentation, so you can copy them straight over. Then write your final conclusion in the Conclusion Packet.",files:["conclsheet1","conclsheet2","introguide"]},
  {d:"2026-11-16",t:"due",title:"Graphs, p-value, and Conclusion Packet due",pts:18,body:"Finished graph(s) with units and Capitalized titles, percent change for each trial, p-value analysis, and all five conclusion parts, including errors, improvements, and future expansion.",files:["conclusion"],link:"sheets.html",linkText:"Tables and graphs help",link2:"stats.html",linkText2:"P-value help"},
- {d:"2026-11-16",t:"due",title:"Final slides due and practice day",body:"Submit your finished presentation by the end of the day. Practice out loud with your partner. Both of you must speak. Your presentation is 8 minutes or less.",files:["finaldeck"],link:"self-check.html?r=final",linkText:"Grade yourself first"},
+ {d:"2026-11-16",t:"due",title:"Final slides due and practice day",body:"Submit your finished presentation by the end of the day. Practice out loud with your partner. Both of you must speak. Your presentation is 8 minutes or less.",files:["finaldeck","sampledeck"],link:"self-check.html?r=final",linkText:"Grade yourself first"},
  {d:"2026-11-17",t:"present",title:"Final presentations, day 1, plus check-in #4",body:"Present your experiment from start to finish in 8 minutes or less. Be ready for questions from the audience. Fill out a classmate feedback sheet for each team, and the last check-in form today.",files:["fbfinal"],form:true,ci:true},
  {d:"2026-11-18",t:"present",title:"Final presentations, day 2",body:"Any remaining groups present."},
  {d:"2026-11-23",t:"present",title:"Final presentations, overflow day",body:"Only if a group has not presented yet."}
 ];
 
 const FILES = [
+ {id:"duedates",name:"Due dates list (PDF)",desc:"One page with every due date, what is due, and the points. Print it or save it.",href:"files/Exercise_Project_Due_Dates.pdf"},
+ {id:"calendar",name:"November calendar (PDF)",desc:"Every due date on a November calendar, with Thanksgiving break and the no-school Friday marked.",href:"files/Exercise_Project_November_Calendar.pdf"},
  {id:"methods",name:"Methods Worksheet",desc:"Brainstorm two ideas, pick one, list materials and steps, and write your hypothesis. 22 points.",href:"files/Exercise_Project_Methods_Worksheet.docx"},
  {id:"intro",name:"Introduction Worksheet",desc:"Background, who benefits, four key facts, two Google Scholar sources in APA, and your hypothesis. 23 points.",href:"files/Exercise_Project_Introduction_Worksheet.docx"},
  {id:"conclusion",name:"Conclusion Packet",desc:"Purpose, claim, evidence, reasoning, errors, improvements, and future expansion. 18 points.",href:"files/Conclusion_Packet.docx"},
- {id:"mmdeck",name:"Materials and Methods slides template",desc:"For 11/11. 14 slides built from the rubric, with a Read This First slide, a null hypothesis slide, a data table layout, hint boxes, and a spot for your photos. Delete the hints before you present.",href:"files/Materials_Methods_Slides_Template.pptx"},
+ {id:"conclsheet1",name:"Conclusion Sheet 1: Results, Claim, Evidence, Reasoning",desc:"Due Monday 11/16. Your numbers, p-value, why it happened, and your claim, evidence, and reasoning. Each part matches a slide in your final presentation, so you can copy it straight over.",href:"files/Conclusion_Sheet_1_Results_and_Claim.docx"},
+ {id:"conclsheet2",name:"Conclusion Sheet 2: Errors, Future Expansion, and Practice",desc:"Due Monday 11/16. Errors and fixes (no human error), future expansion, who says what, and practice questions. Parts D and E match slides in your final presentation.",href:"files/Conclusion_Sheet_2_Errors_Future_and_Practice.docx"},
+ {id:"gslides",name:"Materials and Methods slides (Google Slides)",desc:"Mr. Ward's Google Slides template for 11/11. Click to make your own copy in Google Slides. Use this one or the PowerPoint version, not both.",href:"https://docs.google.com/presentation/d/1IqjzDvj4JpsF45qyg6Ef0q63gLGuG2i6fnqst_2E2pw/copy",copy:true},
+ {id:"mmdeck",name:"Materials and Methods slides template (PowerPoint)",desc:"For 11/11. 14 slides built from the rubric, with a Read This First slide, a null hypothesis slide, a data table layout, hint boxes, and a spot for your photos. Delete the hints before you present.",href:"files/Materials_Methods_Slides_Template.pptx"},
  {id:"finaldeck",name:"Final presentation slides template",desc:"For 11/17 and 11/18. 16 slides built from the rubric, with a recap slide, a table and graph slide, and a Read This First slide. Start from your Materials and Methods slides.",href:"files/Final_Presentation_Slides_Template.pptx"},
+ {id:"researchpacket",name:"Research and Introduction Packet",desc:"Step by step help to search Google Scholar, check sources, and build your Introduction. Includes the peer-review question, a search log, and fill-in skeletons.",href:"files/Research_and_Introduction_Packet.docx"},
+ {id:"introguide",name:"Introduction and Conclusion guide (slides)",desc:"How to find a source in Google Scholar, cite it in APA with the Cite button, cite in text, make clean tables and graphs, and write your 5-part conclusion.",href:"files/Intro_and_Conclusion_Guide.pptx"},
+ {id:"sampledeck",name:"Sample student presentation",desc:"A full example presentation (Sam and Riley) with real citations, a table, a graph, and a finished conclusion. The data are invented. Use it to see what a strong presentation looks like.",href:"files/Sample_Student_Presentation.pptx"},
  {id:"fbmm",name:"Classmate feedback sheet: Materials and Methods",desc:"Print this. Fill out one for each team that presents on 11/11, then give them to your teacher. Be kind, specific, and helpful.",href:"files/Materials_Methods_Feedback_Sheet.docx"},
  {id:"fbfinal",name:"Classmate feedback sheet: Final presentation",desc:"Print this. Fill out one for each team that presents on 11/17 and 11/18, then give them to your teacher.",href:"files/Final_Presentation_Feedback_Sheet.docx"}
 ];

@@ -16,6 +16,7 @@
 <section id="schedule"><div class="wrap">
   <h2>Schedule and due dates</h2>
   <p class="lede">We meet Monday, Tuesday, Wednesday, and Friday. Check off each item when you finish it. Your checkmarks are saved on this device only. They are for you, and your teacher grades what you turn in.</p>
+  <div class="btnrow" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px"><a class="btn small ghost" href="files/Exercise_Project_Due_Dates.pdf" target="_blank" rel="noopener">Open the due dates list (PDF)</a><a class="btn small ghost" href="files/Exercise_Project_November_Calendar.pdf" target="_blank" rel="noopener">Open the November calendar (PDF)</a></div>
   <div class="filters" id="filters" role="group" aria-label="Filter schedule" style="margin-top:26px">
     <button class="chip-btn" aria-pressed="true" data-f="all">Everything</button>
     <button class="chip-btn" aria-pressed="false" data-f="due">Due dates</button>
@@ -46,7 +47,7 @@ function renderTimeline(filter){
     const li=document.createElement("li");
     li.className="item t-"+it.t+(done?" done":"")+(past?" past":"")+(isToday?" today":"");
     let btns="";
-    (it.files||[]).forEach(f=>{const x=FILES.find(z=>z.id===f); if(x) btns+=`<a class="btn small ghost" href="${x.href}" download>Download ${x.name}</a>`;});
+    (it.files||[]).forEach(f=>{const x=FILES.find(z=>z.id===f); if(x) btns+= x.copy ? `<a class="btn small ghost" href="${x.href}" target="_blank" rel="noopener">Make a copy: ${x.name}</a>` : `<a class="btn small ghost" href="${x.href}" download>Download ${x.name}</a>`;});
     if(it.link) btns+=`<a class="btn small ghost" href="${it.link}">${it.linkText}</a>`;
     if(it.link2) btns+=`<a class="btn small ghost" href="${it.link2}">${it.linkText2}</a>`;
     if(it.form) btns+=`<a class="btn small ghost" href="checkin.html">Check-in form</a>`;

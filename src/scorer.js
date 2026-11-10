@@ -30,10 +30,18 @@
           return '<button type="button" class="sbtn" data-v="'+v+'"><span class="n">'+v+'</span><span class="l">'+(LABELS[it.max][v]||"")+'</span><span class="d">'+esc(desc)+'</span></button>';
         }).join("");
         var extra = "";
-        if (opts.notes) extra += '<textarea data-note="'+it.id+'" placeholder="Why did I pick this score? Where in my work can I point to it?" aria-label="Evidence for '+esc(it.name)+'"></textarea>';
+        if (opts.notes) extra += '<textarea data-note="'+it.id+'" placeholder="'+esc(opts.notePlaceholder || "Why did I pick this score? Where in my work can I point to it?")+'" aria-label="Comment for '+esc(it.name)+'"></textarea>';
         if (opts.flags) extra += '<label class="flag"><input type="checkbox" data-flag="'+it.id+'"> Ask a question</label>';
+        var exHtml = "";
+        if (it.examples) {
+          exHtml = '<details class="ex"><summary>See examples</summary><div class="ex-body"><p><b>'+esc(it.examples.tip)+'</b></p><p class="ex-h good">Strong questions</p><ul>'
+            + it.examples.good.map(function(q){return "<li>"+esc(q)+"</li>";}).join("")
+            + '</ul><p class="ex-h weak">Needs work, and how to fix it</p><ul>'
+            + it.examples.weak.map(function(w){return "<li><b>"+esc(w.q)+"</b> "+esc(w.why)+" Try: <i>"+esc(w.fix)+"</i></li>";}).join("")
+            + '</ul></div></details>';
+        }
         c.innerHTML = '<div class="crit-title"><span>'+it.id+'. '+esc(it.name)+'</span><span class="pts">'+it.max+' pts</span></div>'
-          + '<div class="score-row">'+btns+'</div>' + (extra?'<div class="extra">'+extra+'</div>':"");
+          + '<div class="score-row">'+btns+'</div>' + exHtml + (extra?'<div class="extra">'+extra+'</div>':"");
         root.appendChild(c);
       });
 

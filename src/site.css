@@ -325,3 +325,10 @@ details.pcbox{background:#fff;border:1px solid var(--line);border-radius:14px;ma
 .bar-track{flex:1;min-width:0}
 .bar-track .bar{display:block}
 .bar-val{white-space:nowrap}
+
+/* research question box on rubrics page */
+.rq-box{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:8px solid var(--blue);border-radius:12px;padding:16px 18px}
+.rq-box h3{font-size:22px;margin-bottom:4px}
+.rq-box h4{font-family:var(--head);font-size:18px;margin-bottom:4px}
+.rq-box h4.good{color:#12634C}.rq-box h4.weak{color:#B3202F}
+.rq-box ul{margin:4px 0 0 20px}.rq-box li{margin-bottom:6px;font-size:16px}

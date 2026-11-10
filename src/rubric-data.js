@@ -4,6 +4,27 @@
    self-check page, and the teacher grader all update together.
    max = points for the criterion. levels = what each score looks like.
    ===================================================================== */
+
+/* Research question examples, shown on the rubrics page and in the self-check */
+var RQ_EXAMPLES = {
+  title: "Research question examples",
+  tip: "A strong question names what you change, names what you measure, compares two conditions, and can be tested with numbers.",
+  good: [
+    "Does jogging in place for 60 seconds raise heart rate more than jogging for 30 seconds?",
+    "Does slow deep breathing for 2 minutes lower resting heart rate more than sitting quietly?",
+    "Does listening to fast music change the number of squats a person can do in 1 minute?",
+    "Does a 1 minute warm-up change how many push-ups a person can do in 30 seconds?",
+    "Does exercise right before a memory test change how many words a person remembers?"
+  ],
+  weak: [
+    { q: "Is exercise good for you?", why: "Too broad. You cannot answer it with one measurement.", fix: "Does 1 minute of jumping jacks raise heart rate?" },
+    { q: "What happens to your heart when you run?", why: "No comparison and no clear thing you change.", fix: "Does running for 60 seconds raise heart rate more than walking for 60 seconds?" },
+    { q: "Do people like fast music?", why: "That is an opinion. You cannot measure it with a number.", fix: "Does fast music change the number of squats a person can do in 1 minute?" },
+    { q: "Does meditation work?", why: "Vague. Work how? What will you measure?", fix: "Does 3 minutes of guided meditation lower resting heart rate more than sitting quietly?" },
+    { q: "Will heart rate go up after exercise?", why: "The answer is obvious and there is nothing to compare.", fix: "Does 60 seconds of exercise raise heart rate more than 30 seconds?" }
+  ]
+};
+
 window.RUBRICS = {
 
 /* ---------- Materials and Methods (check-in) presentation, 36 pts ---------- */
@@ -13,7 +34,7 @@ mm: {
   timeMax: 5,
   sections: [
     { name: "Scientific thinking", items: [
-      { id:"1A", name:"Research question", max:3, levels:{
+      { id:"1A", name:"Research question", max:3, examples: RQ_EXAMPLES, levels:{
         3:"Clear, testable question at or above 7th-grade level; strong scientific thinking.",
         2:"Testable but may be too simple or slightly below grade level.",
         1:"Unclear, untestable, or well below grade level.",
@@ -58,9 +79,9 @@ mm: {
     ]},
     { name: "Slide design", items: [
       { id:"3A", name:"Slide design", max:3, levels:{
-        3:"Photos from your own experiment on every slide; minimal text; slide titles capitalized; clean and engaging.",
-        2:"Most slides have photos of the experiment; some are text-heavy, off-topic, or have lowercase titles.",
-        1:"Few experiment photos, GIFs or unrelated images, or cluttered with too much text.",
+        3:"An image on every slide; minimal text; slide titles capitalized; clean and engaging.",
+        2:"Most slides have an image; some are text-heavy or have lowercase titles.",
+        1:"Few images, or cluttered with too much text.",
         0:"No slides shown." }}
     ]},
     { name: "Public speaking", items: [
@@ -100,7 +121,7 @@ final: {
         3:"Adequate background; two sources with summaries, but 'What this means' is thin or missing for one.",
         2:"Background is vague or incomplete, or only one source.",
         1:"Background and/or sources missing." }},
-      { id:"1B", name:"Research question", max:4, levels:{
+      { id:"1B", name:"Research question", max:4, examples: RQ_EXAMPLES, levels:{
         4:"Clear, specific, and testable.",
         3:"Clear but slightly broad.",
         2:"Present but unclear.",

@@ -52,8 +52,15 @@ function rubricTable(r){
 }
 document.querySelector("[data-tab=mm]").textContent="Materials and Methods ("+rubricTotal(RUBRICS.mm)+" pts)";
 document.querySelector("[data-tab=final]").textContent="Final presentation ("+rubricTotal(RUBRICS.final)+" pts)";
-$("#tab-mm").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 3 = Excellent, 2 = Developing, 1 = Needs work, 0 = Not present. Up to 5 minutes. <a href="self-check.html?r=mm">Grade yourself</a>.</p>`+rubricTable(RUBRICS.mm);
-$("#tab-final").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 4 = Excellent, 3 = Good, 2 = Developing, 1 = Beginning, 0 = Not present. Presentation criteria are scored 0 to 2. 8 minutes or less. <a href="self-check.html?r=final">Grade yourself</a>.</p>`+rubricTable(RUBRICS.final);
+function exBox(r){
+  let ex=null; r.sections.forEach(sec=>sec.items.forEach(it=>{ if(it.examples) ex=it.examples; }));
+  if(!ex) return "";
+  return `<div class="rq-box"><h3>${ex.title}</h3><p><b>${ex.tip}</b></p>
+    <div class="pc-pair"><div><h4 class="good">Strong questions</h4><ul>${ex.good.map(q=>"<li>"+q+"</li>").join("")}</ul></div>
+    <div><h4 class="weak">Needs work, and how to fix it</h4><ul>${ex.weak.map(w=>"<li><b>"+w.q+"</b> "+w.why+" <i>Try: "+w.fix+"</i></li>").join("")}</ul></div></div></div>`;
+}
+$("#tab-mm").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 3 = Excellent, 2 = Developing, 1 = Needs work, 0 = Not present. Up to 5 minutes. <a href="self-check.html?r=mm">Grade yourself</a>.</p>`+rubricTable(RUBRICS.mm)+exBox(RUBRICS.mm);
+$("#tab-final").innerHTML=`<p class="note" style="margin-bottom:10px">Scoring: 4 = Excellent, 3 = Good, 2 = Developing, 1 = Beginning, 0 = Not present. Presentation criteria are scored 0 to 2. 8 minutes or less. <a href="self-check.html?r=final">Grade yourself</a>.</p>`+rubricTable(RUBRICS.final)+exBox(RUBRICS.final);
 document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{
   document.querySelectorAll("[data-tab]").forEach(x=>{x.setAttribute("aria-pressed",x===b); $("#tab-"+x.dataset.tab).hidden=x!==b;});
 }));

@@ -87,3 +87,11 @@ table.t input.nm{text-align:left;min-width:110px}
   .sec-hdr{background:#fff;color:#000;border:2px solid #000}
   .crit{break-inside:avoid}
 }
+
+/* research question examples inside a criterion */
+details.ex{margin-top:10px;background:#F7F9FC;border:1px solid var(--line);border-radius:10px}
+details.ex summary{cursor:pointer;font-weight:700;color:var(--blue);padding:8px 12px;font-size:15px}
+.ex-body{padding:0 14px 10px;font-size:14.5px}
+.ex-body ul{margin:4px 0 8px 20px}.ex-body li{margin-bottom:4px}
+.ex-h{font-weight:800;margin-top:6px}.ex-h.good{color:#12634C}.ex-h.weak{color:#B3202F}
+@media print{details.ex{display:none}}

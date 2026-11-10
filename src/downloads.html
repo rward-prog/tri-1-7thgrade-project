@@ -28,7 +28,7 @@
 <script src="common.js"></script>
 <script>
 /* files */
-$("#files").innerHTML=FILES.map(f=>`<div class="file"><h3>${f.name}</h3><p>${f.desc}</p><a class="btn" href="${f.href}" download>Download</a></div>`).join("");
+$("#files").innerHTML=FILES.map(f=>`<div class="file"><h3>${f.name}</h3><p>${f.desc}</p>${f.copy?`<a class="btn" href="${f.href}" target="_blank" rel="noopener">Make a copy in Google Slides</a>`:(f.href.endsWith(".pdf")?`<a class="btn" href="${f.href}" target="_blank" rel="noopener">Open PDF</a>`:`<a class="btn" href="${f.href}" download>Download</a>`)}</div>`).join("");
 
 </script>
 </body>

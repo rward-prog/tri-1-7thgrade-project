@@ -5,7 +5,7 @@ percent change, p-value help, Tables and graphs tutorial, rubrics, self-check, d
 
 ## How it is organized
 - The `.html` files in this folder are the finished pages that Vercel serves. Each one is self-contained.
-- `files/` has the packets, slide templates, and classmate feedback sheets that students download.
+- `files/` has the packets, slide templates, PDFs, and classmate feedback sheets that students download.
 - `src/` has the editable source: `config.js` (dates, form link, schedule, downloads), `rubric-data.js` (rubrics),
   `site.css` (design), and the pages.
 - `build.py` rebuilds the finished pages from `src/`.
@@ -19,5 +19,3 @@ Do not edit the finished pages in the main folder directly. The next build overw
 
 ## Teacher grading tools
 The grader pages are not in this repo on purpose (they are for the teacher, not students). Keep them on your own computer.
-They save scores in your browser only. If the rubric wording changes in `src/rubric-data.js`, the graders need to be rebuilt
-too, so ask Claude to regenerate them.
